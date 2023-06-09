@@ -1,0 +1,10 @@
+.container_app {
+  display: flex;
+  width: 100%;
+  max-width: 980px;
+  margin: auto;
+  gap: 50px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 100px;
+}
