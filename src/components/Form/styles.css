@@ -1,21 +1,24 @@
 .container_form {
   display: flex;
   flex-direction: column;
+  max-width: 300px;
 }
-/* 
-button {
-  height: 40px;
-  cursor: pointer;
-  transition: 0.3s all;
-  font-weight: bold;
-  border-radius: 30px;
-  border: none;
-  background-color: #ccc;
-  color: #fff;
-} */
 
-/* CSS */
+.container_form .div_text {
+  margin-bottom: 30px;
+  font-size: 1.5rem;
+}
+
+.message_error {
+  color: red;
+  font-size: 1.1rem;
+  text-align: center;
+  margin-top: -20px;
+  margin-bottom: 20px;
+}
+
 .button-4 {
+  width: 100%;
   appearance: none;
   background-color: #00a11b;
   border: 1px solid rgba(27, 31, 35, 0.15);
@@ -42,9 +45,9 @@ button {
 }
 
 .button-4:hover {
-  background-color: #f3f4f6;
+  background-color: green;
   text-decoration: none;
-  transition-duration: 0.1s;
+  transition-duration: 0.2s;
 }
 
 .button-4:disabled {
@@ -55,7 +58,7 @@ button {
 }
 
 .button-4:active {
-  background-color: #edeff2;
+  background-color: green;
   box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
   transition: none 0s;
 }
@@ -72,96 +75,56 @@ button {
   display: none;
 }
 
-/* form starting stylings ------------------------------- */
 .group {
   position: relative;
   margin-bottom: 35px;
 }
 input {
   font-size: 18px;
-  padding: 10px 10px 10px 5px;
+  padding: 10px;
   display: block;
   width: 300px;
-  border: none;
-  border-bottom: 1px solid #757575;
+  border: 1px solid #757575;
+  border-radius: 5px;
 }
 input:focus {
   outline: none;
 }
 
-/* LABEL ======================================= */
 label {
   color: #999;
   font-size: 18px;
   font-weight: normal;
   position: absolute;
   pointer-events: none;
-  left: 5px;
+  left: 10px;
   top: 10px;
   transition: 0.2s ease all;
   -moz-transition: 0.2s ease all;
   -webkit-transition: 0.2s ease all;
+  background: #fff;
+  padding-inline: 2px;
 }
 
-/* active state */
 input:focus ~ label,
 input:valid ~ label,
 input:active ~ label {
-  top: -10px;
+  top: -8px;
   font-size: 14px;
   color: #00a11b;
 }
 
-/* BOTTOM BARS ================================= */
-.bar {
-  position: relative;
-  display: block;
-  width: 300px;
-}
-.bar:before,
-.bar:after {
-  content: "";
-  height: 2px;
-  width: 0;
-  bottom: 1px;
-  position: absolute;
-  background: #00a11b;
-  transition: 0.2s ease all;
-  -moz-transition: 0.2s ease all;
-  -webkit-transition: 0.2s ease all;
-}
-.bar:before {
-  left: 50%;
-}
-.bar:after {
-  right: 50%;
-}
-
-/* active state */
 input:focus ~ .bar:before,
 input:focus ~ .bar:after {
   width: 50%;
 }
 
-/* HIGHLIGHTER ================================== */
-.highlight {
-  position: absolute;
-  height: 60%;
-  width: 100px;
-  top: 25%;
-  left: 0;
-  pointer-events: none;
-  opacity: 0.5;
-}
-
-/* active state */
 input:focus ~ .highlight {
   -webkit-animation: inputHighlighter 0.3s ease;
   -moz-animation: inputHighlighter 0.3s ease;
   animation: inputHighlighter 0.3s ease;
 }
 
-/* ANIMATIONS ================ */
 @-webkit-keyframes inputHighlighter {
   from {
     background: #00a11b;

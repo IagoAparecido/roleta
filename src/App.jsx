@@ -1,8 +1,9 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
 
 import './App.css'
 import Form from './components/Form';
+import { Box, Modal, Typography } from '@mui/material';
 
 const data = [
   { option: '5', style: { backgroundColor: '#92e6a7', textColor: '#fff' } },
@@ -18,12 +19,35 @@ const data = [
 function App() {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
+  const [loading, setLoading] = useState(false)
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const handleSpinClick = () => {
+    setLoading(true)
     const newPrizeNumber = Math.floor(Math.random() * data.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
+    setTimeout(() => {
+      handleOpen()
+      setLoading(false)
+    }, 9000)
+  }
+
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 400,
+    bgcolor: 'background.paper',
+    border: '2px solid #000',
+    boxShadow: 24,
+    p: 4,
   };
+
 
   return (
     <div className='container_app'>
@@ -33,7 +57,7 @@ function App() {
         onStopSpinning={() => {
           setMustSpin(false);
         }}
-        spinDuration={.5}
+        spinDuration={.7}
         prizeNumber={prizeNumber}
         textColors={['#ffffff']}
 
@@ -49,7 +73,22 @@ function App() {
 
       />
 
-      <Form click={handleSpinClick} />
+      <Form click={handleSpinClick} disabled={loading} />
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <Box sx={style}>
+          <Typography id="modal-modal-title" variant="h6" component="h2">
+            Seu desconto:
+          </Typography>
+          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+            {data[prizeNumber].option}
+          </Typography>
+        </Box>
+      </Modal>
 
     </div>
   );
