@@ -10,6 +10,13 @@ function Form(props) {
   const isFormFilled = name && email && tel
 
   const handleClick = () => {
+    // if (name || email || tel !== '') {
+    //   setTimeout(() => {
+    //     setEmail('')
+    //     setName('')
+    //     setTel('')
+    //   }, 9000)
+    // }
     if (isFormFilled) {
       setErro(false)
 
