@@ -69,7 +69,7 @@ function App() {
         innerBorderWidth={2}
 
         radiusLineWidth={2}
-        pointerProps={{ src: './src/assets/pointer-2.svg' }}
+        pointerProps={{ src: '../pointer-2.svg' }}
 
       />
 
