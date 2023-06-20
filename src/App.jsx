@@ -60,8 +60,8 @@ function App() {
         prizeNumber={prizeNumber}
         textColors={['#999']}
 
-        fontSize={16}
-        fontWeight={300}
+        fontSize={18}
+        fontWeight={400}
 
         radiusLineColor='#6ede8a'
 
