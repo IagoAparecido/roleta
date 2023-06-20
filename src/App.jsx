@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 import { Wheel } from 'react-custom-roulette';
 
 import './App.css'
+
 import Form from './components/Form';
 import { Box, Modal, Typography } from '@mui/material';
 
 const data = [
-  { option: '5', style: { backgroundColor: '#92e6a7', textColor: '#fff' } },
-  { option: '5%', style: { backgroundColor: '#6ede8a', textColor: '#fff' } },
-  { option: '1', style: { backgroundColor: '#4ad66d', textColor: '#fff' } },
-  { option: 'Não foi dessa vez', style: { backgroundColor: '#2dc653', textColor: '#fff' } },
-  { option: '7', style: { backgroundColor: '#25a244', textColor: '#fff' } },
-  { option: '6', style: { backgroundColor: '#208b3a', textColor: '#fff' } },
-  { option: '9', style: { backgroundColor: '#1a7431', textColor: '#fff' } },
-  { option: '0', style: { backgroundColor: '#155d27', textColor: '#fff' } },
-  { option: '0', style: { backgroundColor: 'green', textColor: '#fff' } },
+  { option: '2%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
+  { option: '5%', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
+  { option: '15%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
+  { option: 'Não foi dessa vez', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
+  { option: '30%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
+  { option: '10%', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
+  { option: '3%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
+  { option: '20%', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
 ];
 function App() {
   const [mustSpin, setMustSpin] = useState(false);
@@ -41,11 +41,10 @@ function App() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: 400,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 4,
+    
+    p: 10,
+    borderRadius: 5,
+    backgroundColor: "hsl(210, 11%, 85%)"
   };
 
 
@@ -59,14 +58,19 @@ function App() {
         }}
         spinDuration={.7}
         prizeNumber={prizeNumber}
-        textColors={['#ffffff']}
+        textColors={['#999']}
+        
+        fontSize={16}
+        fontWeight={300}
+
+        radiusLineColor='#6ede8a'
 
         outerBorderWidth={2}
-        outerBorderColor={'black'}
+        outerBorderColor={'#6ede8a'}
 
-        innerRadius={10}
-        innerBorderColor={'black'}
-        innerBorderWidth={2}
+        innerRadius={11}
+        innerBorderColor={'#6ede8a'}
+        innerBorderWidth={8}
 
         radiusLineWidth={2}
         pointerProps={{ src: '../pointer-2.svg' }}
@@ -81,12 +85,10 @@ function App() {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Seu desconto:
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {data[prizeNumber].option}
-          </Typography>
+          <Typography id="modal-modal-title" variant="h3" >Você ganhou mais {data[prizeNumber].option} de desconto</Typography>
+          <Typography id="modal-modal-title" variant="h5" >Copie o cupom de desconto abaixo e aplique direto no carrinho</Typography>
+         
+          <a className="buttonfinalize" href="https://api.whatsapp.com/send?phone=556692518181&text=Olá%20eu%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20%%20de%20desconto" target="_blank" onClick={close}> <Typography id="modal-modal-title" variant="h6" >Parabéns! Hoje é o seu dia de sorte!</Typography></a>
         </Box>
       </Modal>
 

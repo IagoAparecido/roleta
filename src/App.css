@@ -18,3 +18,61 @@
     flex-direction: column;
   }
 }
+
+
+
+.buttonfinalize {
+  width: 100%;
+  height: 52px;
+  appearance: none;
+  background-color: #6ede8a;
+  border: 0;
+  border-radius: 50px;
+  color: #333;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 20px;
+  list-style: none;
+  padding: 6px 16px;
+  position: relative;
+  transition: background-color 0.2s cubic-bezier(0.3, 0, 0.5, 1);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  vertical-align: middle;
+  white-space: nowrap;
+  word-wrap: break-word;
+}
+
+.buttonfinalize:hover {
+  background-color: #59de7a;
+  text-decoration: none;
+  transition-duration: 0.2s;
+}
+
+.buttonfinalize:disabled {
+  background-color: #fafbfc;
+  border-color: rgba(27, 31, 35, 0.15);
+  color: #d5d9dd;
+  cursor: default;
+}
+
+.buttonfinalize:active {
+  background-color: green;
+  box-shadow: rgba(225, 228, 232, 0.2) 0 1px 0 inset;
+  transition: none 0s;
+}
+
+.buttonfinalize:focus {
+  outline: 1px transparent;
+}
+
+.buttonfinalize:before {
+  display: none;
+}
+
+.buttonfinalize:-webkit-details-marker {
+  display: none;
+}
