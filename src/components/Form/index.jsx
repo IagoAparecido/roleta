@@ -81,7 +81,7 @@ function Form(props) {
               onChange={(e) => setCheckboxChecked(e.target.checked)}
             />
             <div>
-              <span>{"--- "}</span>
+              <span>{"---. "}</span>
               Concordo com o tratamento dos meus dados para finalidade de marketing,
               publicidade e divulgação de serviços da Descomplica, suas
               parceiras, contato e cumprimento de obrigações legais e
