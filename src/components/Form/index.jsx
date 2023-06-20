@@ -6,8 +6,9 @@ function Form(props) {
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
   const [erro, setErro] = useState(false);
+  const [checkboxChecked, setCheckboxChecked] = useState(false);
 
-  const isFormFilled = name && email && tel;
+  const isFormFilled = name && email && tel && checkboxChecked;
 
   const handleClick = () => {
     // if (name || email || tel !== '') {
@@ -66,47 +67,41 @@ function Form(props) {
           <span className="highlight"></span>
           <span className="bar"></span>
           <label>Telefone</label>
+
         </div>
 
         {erro && (
           <p className="message_error">Preencha os dados corretamente</p>
         )}
         <div className="group">
-          <p>
-            <span>Concordo</span>
-            <span>
-              com o tratamento dos meus dados para finalidade de marketing,
+          <div className="politic_container">
+            <input
+              type="checkbox"
+              required
+              onChange={(e) => setCheckboxChecked(e.target.checked)}
+            />
+            <div>
+              <span>{"--- "}</span>
+              Concordo com o tratamento dos meus dados para finalidade de marketing,
               publicidade e divulgação de serviços da Descomplica, suas
               parceiras, contato e cumprimento de obrigações legais e
               contratuais, nos termos
-            </span>
-            <span></span>
-            <span>
+              {" "}
               <a
                 href="https://descomplica.com.br/sobre/politica-de-privacidade/"
                 rel="noopener noreferrer"
                 target="_blank"
                 title=""
                 aria-live="polite"
-                tabindex="7"
+                tabIndex="7"
               >
-                <span>
-                  <u>
-                    <strong>política de privacidade</strong>
-                  </u>
-                </span>
-                <span>
-                  <u>
-                    <strong>.</strong>
-                  </u>
-                </span>
+                <strong>política de privacidade.</strong>
               </a>
-              .
-            </span>
-          </p>
+            </div>
+          </div>
         </div>
         <button
-          type="button"
+          type="submit"
           className="button-4"
           onClick={handleClick}
           disabled={props.disabled}

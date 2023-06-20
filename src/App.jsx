@@ -10,7 +10,7 @@ const data = [
   { option: '2%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
   { option: '5%', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
   { option: '15%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
-  { option: 'Não foi dessa vez', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
+  { option: '1%', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
   { option: '30%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
   { option: '10%', style: { backgroundColor: '#6ede8a', textColor: '#000000' } },
   { option: '3%', style: { backgroundColor: '#92e6a7', textColor: '#000000' } },
@@ -23,7 +23,7 @@ function App() {
 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  // const handleClose = () => setOpen(false);
 
   const handleSpinClick = () => {
     setLoading(true)
@@ -41,7 +41,7 @@ function App() {
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    
+
     p: 10,
     borderRadius: 5,
     backgroundColor: "hsl(210, 11%, 85%)"
@@ -59,7 +59,7 @@ function App() {
         spinDuration={.7}
         prizeNumber={prizeNumber}
         textColors={['#999']}
-        
+
         fontSize={16}
         fontWeight={300}
 
@@ -80,15 +80,19 @@ function App() {
       <Form click={handleSpinClick} disabled={loading} />
       <Modal
         open={open}
-        onClose={handleClose}
+        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <Box sx={style} className="modal_prize">
           <Typography id="modal-modal-title" variant="h3" >Você ganhou mais {data[prizeNumber].option} de desconto</Typography>
           <Typography id="modal-modal-title" variant="h5" >Copie o cupom de desconto abaixo e aplique direto no carrinho</Typography>
-         
-          <a className="buttonfinalize" href="https://api.whatsapp.com/send?phone=556692518181&text=Olá%20eu%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20%%20de%20desconto" target="_blank" onClick={close}> <Typography id="modal-modal-title" variant="h6" >Parabéns! Hoje é o seu dia de sorte!</Typography></a>
+
+          <a className="buttonfinalize" href="https://api.whatsapp.com/send?phone=556692518181&text=Olá%20eu%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20%%20de%20desconto" target="_blank" onClick={close} rel="noreferrer">
+            <Typography id="modal-modal-title" variant="h6" >
+              Parabéns! Hoje é o seu dia de sorte!
+            </Typography>
+          </a>
         </Box>
       </Modal>
 

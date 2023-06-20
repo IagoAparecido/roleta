@@ -17,6 +17,16 @@
   margin-bottom: 20px;
 }
 
+.politic_container {
+  display: flex;
+}
+.politic_container input {
+  position: absolute;
+  height: 16px;
+  cursor: pointer;
+  width: 16px;
+}
+
 .button-4 {
   width: 100%;
   height: 52px;
