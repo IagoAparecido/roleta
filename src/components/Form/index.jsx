@@ -11,6 +11,7 @@ function Form(props) {
   const isFormFilled = name && email && tel && checkboxChecked;
 
   const handleClick = () => {
+    event.preventDefault();
     // if (name || email || tel !== '') {
     //   setTimeout(() => {
     //     setEmail('')
@@ -67,7 +68,6 @@ function Form(props) {
           <span className="highlight"></span>
           <span className="bar"></span>
           <label>Telefone</label>
-
         </div>
 
         {erro && (
@@ -82,11 +82,10 @@ function Form(props) {
             />
             <div>
               <span>{"---. "}</span>
-              Concordo com o tratamento dos meus dados para finalidade de marketing,
-              publicidade e divulgação de serviços da Descomplica, suas
-              parceiras, contato e cumprimento de obrigações legais e
-              contratuais, nos termos
-              {" "}
+              Concordo com o tratamento dos meus dados para finalidade de
+              marketing, publicidade e divulgação de serviços da Descomplica,
+              suas parceiras, contato e cumprimento de obrigações legais e
+              contratuais, nos termos{" "}
               <a
                 href="https://descomplica.com.br/sobre/politica-de-privacidade/"
                 rel="noopener noreferrer"
