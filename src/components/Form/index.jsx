@@ -1,31 +1,104 @@
 import { useState } from "react";
 import "./styles.css";
+import Input from "../Input";
 
 function Form(props) {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [tel, setTel] = useState("");
+  const [cpf, setCpf] = useState("");
   const [erro, setErro] = useState(false);
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
-  const isFormFilled = name && email && tel && checkboxChecked;
+  const isFormFilled = name && email && tel && cpf && checkboxChecked;
 
-  const handleClick = () => {
+  const handleSubmite = () => {
     event.preventDefault();
-    // if (name || email || tel !== '') {
-    //   setTimeout(() => {
-    //     setEmail('')
-    //     setName('')
-    //     setTel('')
-    //   }, 9000)
-    // }
-    if (isFormFilled) {
+
+    if (isFormFilled && validateCPF(cpf)) {
       setErro(false);
 
       props.click();
-    } else if (name || email || tel == "") {
+    } else if (name || email || tel || cpf == "") {
+      setErro(true);
+    } else if (cpf.length <= 11) {
       setErro(true);
     }
+  };
+
+  const formatCPF = (value) => {
+    const numericValue = value.replace(/\D/g, "");
+
+    let formattedValue = numericValue;
+    if (numericValue.length > 3) {
+      formattedValue = numericValue.replace(/(\d{3})(\d)/, "$1.$2");
+    }
+    if (numericValue.length > 6) {
+      formattedValue = formattedValue.replace(/(\d{3})(\d)/, "$1.$2");
+    }
+    if (numericValue.length > 9) {
+      formattedValue = formattedValue.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+    }
+
+    return formattedValue;
+  };
+
+  const validateCPF = (value) => {
+    const numericValue = value.replace(/\D/g, "");
+
+    if (numericValue.length !== 11) {
+      return false;
+    }
+
+    let sum = 0;
+    let remainder;
+
+    for (let i = 1; i <= 9; i++) {
+      sum += parseInt(numericValue.substring(i - 1, i)) * (11 - i);
+    }
+
+    remainder = (sum * 10) % 11;
+
+    if (remainder === 10 || remainder === 11) {
+      remainder = 0;
+    }
+
+    if (remainder !== parseInt(numericValue.substring(9, 10))) {
+      return false;
+    }
+
+    sum = 0;
+    for (let i = 1; i <= 10; i++) {
+      sum += parseInt(numericValue.substring(i - 1, i)) * (12 - i);
+    }
+
+    remainder = (sum * 10) % 11;
+
+    if (remainder === 10 || remainder === 11) {
+      remainder = 0;
+    }
+
+    if (remainder !== parseInt(numericValue.substring(10, 11))) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const formatTel = (value) => {
+    const numericValue = value.replace(/\D/g, "");
+
+    let formattedValue = numericValue;
+    if (numericValue.length > 2) {
+      formattedValue = `(${numericValue.slice(0, 2)}) ${numericValue.slice(2)}`;
+    }
+    if (numericValue.length > 7) {
+      formattedValue = `${formattedValue.slice(0, 10)}-${formattedValue.slice(
+        10
+      )}`;
+    }
+
+    return formattedValue;
   };
 
   return (
@@ -33,46 +106,31 @@ function Form(props) {
       <div className="div_text">
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
       </div>
-      <form>
-        <div className="group">
-          <input
-            type="text"
-            required
-            onChange={(e) => setName(e.target.value)}
-            value={props.name}
-          />
-          <span className="highlight"></span>
-          <span className="bar"></span>
-          <label>Nome</label>
-        </div>
+      <form onSubmit={handleSubmite}>
+        <Input value={name} setValue={setName} type="text" title="Nome" />
 
-        <div className="group">
-          <input
-            type="text"
-            required
-            onChange={(e) => setEmail(e.target.value)}
-            value={email}
-          />
-          <span className="highlight"></span>
-          <span className="bar"></span>
-          <label>E-mail</label>
-        </div>
+        <Input
+          maxLength={14}
+          value={formatCPF(cpf)}
+          setValue={setCpf}
+          type="text"
+          title="CPF"
+        />
 
-        <div className="group">
-          <input
-            type="number"
-            required
-            onChange={(e) => setTel(e.target.value)}
-            value={tel}
-          />
-          <span className="highlight"></span>
-          <span className="bar"></span>
-          <label>Telefone</label>
-        </div>
+        <Input value={email} setValue={setEmail} type="email" title="E-mail" />
 
-        {erro && (
-          <p className="message_error">Preencha os dados corretamente</p>
-        )}
+        <Input
+          maxLength={15}
+          value={formatTel(tel)}
+          setValue={setTel}
+          type="text"
+          title="Telefone"
+        />
+
+        <div>{props.children}</div>
+
+        <br />
+        {erro && <p className="message_error">CPF inválido</p>}
         <div className="group">
           <div className="politic_container">
             <input
@@ -99,12 +157,7 @@ function Form(props) {
             </div>
           </div>
         </div>
-        <button
-          type="submit"
-          className="button-4"
-          onClick={handleClick}
-          disabled={props.disabled}
-        >
+        <button type="submit" className="button-4" disabled={props.disabled}>
           Gire a roleta
         </button>
       </form>

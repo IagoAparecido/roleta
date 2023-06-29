@@ -4,6 +4,7 @@ import { Wheel } from "react-custom-roulette";
 import "./App.css";
 
 import Form from "./components/Form";
+import Select from "./components/Select";
 import { Box, Modal, Typography } from "@mui/material";
 
 const data = [
@@ -88,7 +89,9 @@ function App() {
         pointerProps={{ src: "../pointer-2.svg" }}
       />
 
-      <Form click={handleSpinClick} disabled={loading} />
+      <Form click={handleSpinClick} disabled={loading}>
+        <Select />
+      </Form>
       <Modal
         open={open}
         // onClose={handleClose}
