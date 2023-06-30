@@ -1,52 +1,74 @@
-import React, { useState } from "react";
+import { useEffect, useState } from "react";
 import { Wheel } from "react-custom-roulette";
-
 import "./App.css";
-
 import Form from "./components/Form";
 import Select from "./components/Select";
 import { Box, Modal, Typography } from "@mui/material";
 
-const data = [
-  {
-    option: "2%",
-    style: { backgroundColor: "#92e6a7", textColor: "#000000" },
-  },
-  {
-    option: "5%",
-    style: { backgroundColor: "#6ede8a", textColor: "#000000" },
-  },
-  {
-    option: "15%",
-    style: { backgroundColor: "#92e6a7", textColor: "#000000" },
-  },
-  { option: "1%", style: { backgroundColor: "#6ede8a", textColor: "#000000" } },
-  {
-    option: "30%",
-    style: { backgroundColor: "#92e6a7", textColor: "#000000" },
-  },
-  {
-    option: "10%",
-    style: { backgroundColor: "#6ede8a", textColor: "#000000" },
-  },
-  { option: "3%", style: { backgroundColor: "#92e6a7", textColor: "#000000" } },
-  {
-    option: "20%",
-    style: { backgroundColor: "#6ede8a", textColor: "#000000" },
-  },
-];
 function App() {
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
+  const [valueSelect, setValueSelect] = useState("");
   const [loading, setLoading] = useState(false);
+  const [dataValue, setDataValue] = useState([]);
+  const [newDataValue, setNewDataValue] = useState([]);
 
-  const [open, setOpen] = React.useState(false);
+  const [data, setData] = useState([
+    {
+      option: "??",
+      style: { backgroundColor: "#92e6a7", textColor: "#000000" },
+    },
+    {
+      option: "??",
+      style: { backgroundColor: "#6ede8a", textColor: "#000000" },
+    },
+    {
+      option: "??",
+      style: { backgroundColor: "#92e6a7", textColor: "#000000" },
+    },
+    {
+      option: "??",
+      style: { backgroundColor: "#6ede8a", textColor: "#000000" },
+    },
+    {
+      option: "??",
+      style: { backgroundColor: "#92e6a7", textColor: "#000000" },
+    },
+    {
+      option: "??",
+      style: { backgroundColor: "#6ede8a", textColor: "#000000" },
+    },
+  ]);
+
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  // const handleClose = () => setOpen(false);
+
+  console.log(newDataValue);
+
+  useEffect(() => {
+    fetch("../../data.json")
+      .then((res) => res.json())
+      .then((data) => {
+        setDataValue(data);
+      });
+  }, []);
+
+  useEffect(() => {
+    const selectedOption = dataValue.find((item) => item.curso === valueSelect);
+    setNewDataValue(selectedOption);
+
+    if (selectedOption) {
+      const newData = selectedOption.value.map((item) => ({
+        option: item.option,
+        style: { backgroundColor: `${item.color}`, textColor: "#000000" },
+      }));
+      setData(newData);
+    }
+  }, [valueSelect]);
 
   const handleSpinClick = () => {
     setLoading(true);
-    const newPrizeNumber = Math.floor(Math.random() * data.length);
+    const newPrizeNumber = Math.floor(Math.random() * dataValue.length);
     setPrizeNumber(newPrizeNumber);
     setMustSpin(true);
     setTimeout(() => {
@@ -60,7 +82,6 @@ function App() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-
     p: 10,
     borderRadius: 5,
     backgroundColor: "hsl(210, 11%, 85%)",
@@ -90,11 +111,17 @@ function App() {
       />
 
       <Form click={handleSpinClick} disabled={loading}>
-        <Select />
+        <Select setValueSelect={setValueSelect}>
+          {dataValue.map((option, index) => (
+            <option key={index} value={option.curso}>
+              {option.curso}
+            </option>
+          ))}
+        </Select>
       </Form>
+
       <Modal
         open={open}
-        // onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
@@ -110,7 +137,6 @@ function App() {
             className="buttonfinalize"
             href="https://api.whatsapp.com/send?phone=556692518181&text=Olá%20eu%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20%%20de%20desconto"
             target="_blank"
-            onClick={close}
             rel="noreferrer"
           >
             <Typography id="modal-modal-title" variant="h6">

@@ -1,0 +1,60 @@
+[
+  {
+    "curso": "Direito",
+    "value": [
+      {
+        "color": "#92e6a7",
+        "option": "111"
+      },
+      {
+        "color": "#6ede8a",
+        "option": "999"
+      },
+      {
+        "color": "#92e6a7",
+        "option": "111"
+      },
+      {
+        "color": "#6ede8a",
+        "option": "999"
+      },
+      {
+        "color": "#92e6a7",
+        "option": "111"
+      },
+      {
+        "color": "#6ede8a",
+        "option": "999"
+      }
+    ]
+  },
+  {
+    "curso": "Arquitetura",
+    "value": [
+      {
+        "color": "#92e6a7",
+        "option": "222"
+      },
+      {
+        "color": "#6ede8a",
+        "option": "888"
+      },
+      {
+        "color": "#92e6a7",
+        "option": "222"
+      },
+      {
+        "color": "#6ede8a",
+        "option": "888"
+      },
+      {
+        "color": "#92e6a7",
+        "option": "222"
+      },
+      {
+        "color": "#6ede8a",
+        "option": "888"
+      }
+    ]
+  }
+]

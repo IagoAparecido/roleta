@@ -12,7 +12,7 @@ function Form(props) {
 
   const isFormFilled = name && email && tel && cpf && checkboxChecked;
 
-  const handleSubmite = () => {
+  const handleSubmit = () => {
     event.preventDefault();
 
     if (isFormFilled && validateCPF(cpf)) {
@@ -106,7 +106,7 @@ function Form(props) {
       <div className="div_text">
         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
       </div>
-      <form onSubmit={handleSubmite}>
+      <form onSubmit={handleSubmit}>
         <Input value={name} setValue={setName} type="text" title="Nome" />
 
         <Input

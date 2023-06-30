@@ -1,18 +1,17 @@
 import "./styles.css";
 
-function Select() {
+function Select(props) {
   return (
     <div className="group">
-      <select className="select" required>
+      <select
+        className="select"
+        required
+        onChange={(e) => props.setValueSelect(e.target.value)}
+      >
         <option value="" disabled selected>
           Selecione o curso
         </option>
-        <option value="">Direito</option>
-        <option value="">Arquitetura</option>
-        <option value="">Análise e Desenvolvimento de Software</option>
-        <option value="">Gastronomia</option>
-        <option value="">Odontologia</option>
-        <option value="">Administração</option>
+        {props.children}
       </select>
       <span className="highlight"></span>
       <span className="bar"></span>
