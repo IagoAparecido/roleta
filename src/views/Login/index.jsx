@@ -4,7 +4,7 @@ import "./styles.css";
 function Login() {
   return (
     <div className="container_login">
-      <img src="../../../public/logo.png" alt="" />
+      <img src="../../../logo.png" alt="" />
       <div className="border_img"></div>
       <form action="">
         <h1>Login</h1>
