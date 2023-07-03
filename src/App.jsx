@@ -87,6 +87,8 @@ function App() {
     backgroundColor: "hsl(210, 11%, 85%)",
   };
 
+  const desconto = data[prizeNumber].option;
+
   return (
     <div className="container_app">
       <Wheel
@@ -127,7 +129,7 @@ function App() {
       >
         <Box sx={style} className="modal_prize">
           <Typography id="modal-modal-title" variant="h3">
-            Você ganhou mais {data[prizeNumber].option} de desconto
+            Você ganhou mais {desconto} de desconto
           </Typography>
           <Typography id="modal-modal-title" variant="h5">
             Copie o cupom de desconto abaixo e aplique direto no carrinho
@@ -135,7 +137,7 @@ function App() {
 
           <a
             className="buttonfinalize"
-            href="https://api.whatsapp.com/send?phone=556692518181&text=Olá%20eu%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20%%20de%20desconto"
+            href={`https://api.whatsapp.com/send?phone=556692518181&text=Olá,%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20${desconto}%%20de%20desconto`}
             target="_blank"
             rel="noreferrer"
           >
