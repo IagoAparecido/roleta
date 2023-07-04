@@ -11,7 +11,6 @@ function Home() {
   const [valueSelect, setValueSelect] = useState("");
   const [loading, setLoading] = useState(false);
   const [dataValue, setDataValue] = useState([]);
-  const [newDataValue, setNewDataValue] = useState([]);
 
   const [data, setData] = useState([
     {
@@ -43,8 +42,6 @@ function Home() {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
 
-  console.log(newDataValue);
-
   useEffect(() => {
     fetch("../../data.json")
       .then((res) => res.json())
@@ -55,7 +52,6 @@ function Home() {
 
   useEffect(() => {
     const selectedOption = dataValue.find((item) => item.curso === valueSelect);
-    setNewDataValue(selectedOption);
 
     if (selectedOption) {
       const newData = selectedOption.value.map((item) => ({

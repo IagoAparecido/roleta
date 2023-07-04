@@ -1,51 +1,58 @@
+import "./styles.css";
 import { useEffect, useState } from "react";
 import DashboardHeader from "../../components/DashboardHeader";
 import { Wheel } from "react-custom-roulette";
-import "./styles.css";
 import Select from "../../components/Select";
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Button,
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   TextField,
+  tableCellClasses,
 } from "@mui/material";
+import styled from "@emotion/styled";
 
 function DashboardRoulett() {
   const [mustSpin, setMustSpin] = useState(false);
-  const [prizeNumber, setPrizeNumber] = useState(0);
   const [valueSelect, setValueSelect] = useState("");
-  const [loading, setLoading] = useState(false);
   const [dataValue, setDataValue] = useState([]);
-  const [newDataValue, setNewDataValue] = useState([]);
   const [open, setOpen] = useState(false);
 
   const [data, setData] = useState([
     {
-      option: "??",
+      option: "0. ??",
       style: { backgroundColor: "#92e6a7", textColor: "#000000" },
     },
     {
-      option: "??",
+      option: "1. ??",
       style: { backgroundColor: "#6ede8a", textColor: "#000000" },
     },
     {
-      option: "??",
+      option: "2. ??",
       style: { backgroundColor: "#92e6a7", textColor: "#000000" },
     },
     {
-      option: "??",
+      option: "3. ??",
       style: { backgroundColor: "#6ede8a", textColor: "#000000" },
     },
     {
-      option: "??",
+      option: "4. ??",
       style: { backgroundColor: "#92e6a7", textColor: "#000000" },
     },
     {
-      option: "??",
+      option: "5. ??",
       style: { backgroundColor: "#6ede8a", textColor: "#000000" },
     },
   ]);
@@ -60,12 +67,15 @@ function DashboardRoulett() {
 
   useEffect(() => {
     const selectedOption = dataValue.find((item) => item.curso === valueSelect);
-    setNewDataValue(selectedOption);
 
     if (selectedOption) {
+      let i = 0;
       const newData = selectedOption.value.map((item) => ({
-        option: item.option,
-        style: { backgroundColor: `${item.color}`, textColor: "#000000" },
+        option: i++ + ". " + item.option,
+        style: {
+          backgroundColor: `${item.color}`,
+          textColor: `${item.textColor}`,
+        },
       }));
       setData(newData);
     }
@@ -79,6 +89,34 @@ function DashboardRoulett() {
     setOpen(false);
   };
 
+  console.log(data);
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: theme.palette.common.black,
+      color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+    },
+  }));
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    "&:nth-of-type(odd)": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    // hide last border
+    "&:last-child td, &:last-child th": {
+      border: 0,
+    },
+  }));
+
+  const rows = data.map((item) => ({
+    value: item.option,
+    backgroundColor: item.style.backgroundColor,
+    textColor: item.style.textColor,
+  }));
+
   return (
     <div>
       <DashboardHeader>
@@ -86,8 +124,8 @@ function DashboardRoulett() {
           <div>
             <h2>Editar Roleta</h2>
             <br />
-            <div>
-              <h3>Cursos:</h3>
+            <h3>Cursos:</h3>
+            <div className="courses_more">
               <Select setValueSelect={setValueSelect}>
                 {dataValue.map((option, index) => (
                   <option key={index} value={option.curso}>
@@ -95,42 +133,110 @@ function DashboardRoulett() {
                   </option>
                 ))}
               </Select>
+              <button className="button_add" onClick={handleClickOpen}>
+                <AddIcon />
+                Adicionar novo curso
+              </button>
+              <Dialog
+                maxWidth={"xs"}
+                fullWidth={true}
+                open={open}
+                onClose={handleClose}
+              >
+                <DialogTitle>Adicionar novo curso</DialogTitle>
+                <DialogContent>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Curso..."
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Adicionar</Button>
+                </DialogActions>
+              </Dialog>
             </div>
-            <button className="button_add" onClick={handleClickOpen}>
-              <AddIcon />
-              Adicionar novo curso
-            </button>
-            <Dialog
-              maxWidth={"xs"}
-              fullWidth={true}
-              open={open}
-              onClose={handleClose}
-            >
-              <DialogTitle>Adicionar novo curso</DialogTitle>
-              <DialogContent>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="name"
-                  label="Curso..."
-                  type="text"
-                  fullWidth
-                  variant="standard"
-                />
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleClose}>Adicionar</Button>
-              </DialogActions>
-            </Dialog>
+
+            <TableContainer component={Paper}>
+              <Table
+                sx={{ width: 600, maxWidth: 600 }}
+                aria-label="customized table"
+              >
+                <TableHead>
+                  <TableRow>
+                    <StyledTableCell>Prêmio</StyledTableCell>
+                    <StyledTableCell>Background</StyledTableCell>
+                    <StyledTableCell>TextColor</StyledTableCell>
+                    <StyledTableCell align="center">Action</StyledTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {rows.map((row, index) => (
+                    <StyledTableRow key={index}>
+                      <StyledTableCell component="th" scope="row">
+                        {row.value}
+                      </StyledTableCell>
+                      <StyledTableCell>{row.backgroundColor}</StyledTableCell>
+                      <StyledTableCell>{row.textColor}</StyledTableCell>
+                      <StyledTableCell
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <EditIcon
+                          sx={{
+                            cursor: "pointer",
+                            ":hover": {
+                              color: "gray",
+                            },
+                          }}
+                        />
+                        <DeleteIcon
+                          sx={{
+                            color: "red",
+                            cursor: "pointer",
+                            ":hover": {
+                              color: "#d50000",
+                            },
+                          }}
+                        />
+                      </StyledTableCell>
+                    </StyledTableRow>
+                  ))}
+                  <StyledTableRow>
+                    <StyledTableCell
+                      sx={{
+                        cursor: "pointer",
+                        ":hover": {
+                          backgroundColor: "#f1f1f1f1",
+                        },
+                      }}
+                    >
+                      <AddIcon sx={{ color: "green" }} />
+                      Adicionar item
+                    </StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                    <StyledTableCell></StyledTableCell>
+                  </StyledTableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+            <br />
           </div>
           <Wheel
             mustStartSpinning={mustSpin}
+            prizeNumber={0}
             data={data}
             onStopSpinning={() => {
               setMustSpin(false);
             }}
             spinDuration={0.7}
-            prizeNumber={prizeNumber}
             textColors={["#999"]}
             fontSize={18}
             fontWeight={400}

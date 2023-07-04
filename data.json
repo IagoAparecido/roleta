@@ -3,26 +3,32 @@
     "curso": "Direito",
     "value": [
       {
+        "textColor": "#000000",
         "color": "#92e6a7",
         "option": "111"
       },
       {
+        "textColor": "#000000",
         "color": "#6ede8a",
         "option": "999"
       },
       {
+        "textColor": "#000000",
         "color": "#92e6a7",
         "option": "111"
       },
       {
+        "textColor": "#000000",
         "color": "#6ede8a",
         "option": "999"
       },
       {
+        "textColor": "#000000",
         "color": "#92e6a7",
         "option": "111"
       },
       {
+        "textColor": "#000000",
         "color": "#6ede8a",
         "option": "999"
       }
@@ -32,26 +38,32 @@
     "curso": "Arquitetura",
     "value": [
       {
+        "textColor": "#000000",
         "color": "#92e6a7",
         "option": "222"
       },
       {
+        "textColor": "#000000",
         "color": "#6ede8a",
         "option": "888"
       },
       {
+        "textColor": "#000000",
         "color": "#92e6a7",
         "option": "222"
       },
       {
+        "textColor": "#000000",
         "color": "#6ede8a",
         "option": "888"
       },
       {
+        "textColor": "#000000",
         "color": "#92e6a7",
         "option": "222"
       },
       {
+        "textColor": "#111111",
         "color": "#6ede8a",
         "option": "888"
       }

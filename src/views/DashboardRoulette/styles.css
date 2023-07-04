@@ -3,7 +3,8 @@
   justify-content: center;
   align-items: center;
   padding: 50px;
-  gap: 50px;
+  gap: 100px;
+  flex-wrap: wrap;
 }
 
 .button_add {
@@ -15,9 +16,21 @@
   transition: 0.3s all;
   cursor: pointer;
   font-size: 16px;
+  margin-bottom: 12px;
 }
 
 .button_add:hover {
   color: #fff;
   background-color: rgb(2, 146, 2);
+}
+
+.container_valor {
+  display: flex;
+  justify-content: space-between;
+}
+
+.courses_more {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
