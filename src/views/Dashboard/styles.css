@@ -2,3 +2,11 @@
   height: 60px;
   background-color: aliceblue;
 }
+
+.container_table {
+  padding: 50px;
+}
+
+.container_table input {
+  margin-bottom: 10px;
+}

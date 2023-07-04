@@ -1,14 +1,16 @@
 import "./styles.css";
 
 import DashboardHeader from "../../components/DashboardHeader";
+import TableData from "../../components/TableData";
 
 function Dashboard() {
   return (
-    <div>
-      <DashboardHeader>
-        <h1>Hello</h1>
-      </DashboardHeader>
-    </div>
+    <DashboardHeader>
+      <div className="container_table">
+        <input type="text" placeholder="Pesquisar.." />
+        <TableData />
+      </div>
+    </DashboardHeader>
   );
 }
 

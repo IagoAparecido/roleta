@@ -1,0 +1,23 @@
+.container_roulette {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+  gap: 50px;
+}
+
+.button_add {
+  border: none;
+  color: #fff;
+  background-color: green;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: 0.3s all;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.button_add:hover {
+  color: #fff;
+  background-color: rgb(2, 146, 2);
+}
