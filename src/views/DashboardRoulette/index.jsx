@@ -29,11 +29,28 @@ function DashboardRoulett() {
   const [valueSelect, setValueSelect] = useState("");
   const [dataValue, setDataValue] = useState([]);
   const [value, setValue] = useState("");
+  const [background, setBackground] = useState("");
+  const [textcolor, setTextcolor] = useState("");
 
   const [open1, setOpen1] = useState(false);
+  const [open3, setOpen3] = useState(false);
   const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+
+  // const [selectedRow, setSelectedRow] = useState(null);
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState("");
+  const [selectedTextColor, setSelectedTextColor] = useState("");
+
+  const handleOpenDialog = (row) => {
+    // setSelectedRow(row);
+    setSelectedValue(row.value);
+    setSelectedBackgroundColor(row.backgroundColor);
+    setSelectedTextColor(row.textColor);
+    setOpen(true);
+  };
+  const handleCloseDialog = () => {
+    setOpen(false);
+  };
 
   const [data, setData] = useState([
     {
@@ -89,9 +106,15 @@ function DashboardRoulett() {
   const handleClickOpen = () => {
     setOpen1(true);
   };
+  const handleClickOpen2 = () => {
+    setOpen3(true);
+  };
 
   const handleClose1 = () => {
     setOpen1(false);
+  };
+  const handleClose2 = () => {
+    setOpen3(false);
   };
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -194,7 +217,7 @@ function DashboardRoulett() {
                         }}
                       >
                         <EditIcon
-                          onClick={handleOpen}
+                          onClick={() => handleOpenDialog(row)}
                           sx={{
                             cursor: "pointer",
                             ":hover": {
@@ -202,65 +225,7 @@ function DashboardRoulett() {
                             },
                           }}
                         />
-                        <div style={{ backgroundColor: "pink" }}>
-                          <Dialog
-                            BackdropProps={{
-                              style: {
-                                backgroundColor: "rgba(0, 0, 0, 0.1)",
-                                boxShadow: 2,
-                                // Change the background color and transparency here
-                              },
-                            }}
-                            maxWidth={"xs"}
-                            fullWidth={true}
-                            open={open}
-                            onClose={handleClose}
-                          >
-                            <DialogTitle>Editar opções</DialogTitle>
-                            <DialogContent>
-                              <div className="textField_dialog">
-                                <span>{row.value}</span>
-                                <TextField
-                                  autoFocus
-                                  margin="dense"
-                                  id="name"
-                                  label="Novo Prêmio"
-                                  type="text"
-                                  fullWidth
-                                  variant="standard"
-                                  onChange={(e) => setValue(e.target.value)}
-                                />
-                              </div>
-                              <div className="textField_dialog">
-                                <span>{row.backgroundColor}</span>
-                                <TextField
-                                  autoFocus
-                                  margin="dense"
-                                  id="name"
-                                  label="Novo Background"
-                                  type="text"
-                                  fullWidth
-                                  variant="standard"
-                                />
-                              </div>
-                              <div className="textField_dialog">
-                                <span>{row.textColor}</span>
-                                <TextField
-                                  autoFocus
-                                  margin="dense"
-                                  id="name"
-                                  label="Novo TextColor"
-                                  type="text"
-                                  fullWidth
-                                  variant="standard"
-                                />
-                              </div>
-                            </DialogContent>
-                            <DialogActions>
-                              <Button onClick={handleClose}>Alterar</Button>
-                            </DialogActions>
-                          </Dialog>
-                        </div>
+
                         <DeleteIcon
                           sx={{
                             color: "red",
@@ -275,6 +240,7 @@ function DashboardRoulett() {
                   ))}
                   <StyledTableRow>
                     <StyledTableCell
+                      onClick={handleClickOpen2}
                       sx={{
                         cursor: "pointer",
                         ":hover": {
@@ -285,6 +251,47 @@ function DashboardRoulett() {
                       <AddIcon sx={{ color: "green" }} />
                       Adicionar item
                     </StyledTableCell>
+
+                    <Dialog
+                      maxWidth={"xs"}
+                      fullWidth={true}
+                      open={open3}
+                      onClose={handleClose2}
+                    >
+                      <DialogTitle>Adicionar novo item</DialogTitle>
+                      <DialogContent>
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id="name"
+                          label="Prêmio"
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                        />
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id="name"
+                          label="Background"
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                        />
+                        <TextField
+                          autoFocus
+                          margin="dense"
+                          id="name"
+                          label="TextColor"
+                          type="text"
+                          fullWidth
+                          variant="standard"
+                        />
+                      </DialogContent>
+                      <DialogActions>
+                        <Button onClick={handleClose1}>Adicionar</Button>
+                      </DialogActions>
+                    </Dialog>
                     <StyledTableCell></StyledTableCell>
                     <StyledTableCell></StyledTableCell>
                     <StyledTableCell></StyledTableCell>
@@ -292,6 +299,67 @@ function DashboardRoulett() {
                 </TableBody>
               </Table>
             </TableContainer>
+            <Dialog
+              BackdropProps={{
+                style: {
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                  boxShadow: 2,
+                },
+              }}
+              maxWidth={"xs"}
+              fullWidth={true}
+              open={open}
+              onClose={handleCloseDialog}
+            >
+              <DialogTitle>Editar opções</DialogTitle>
+              <DialogContent>
+                <div className="textField_dialog">
+                  <span>{selectedValue}</span>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Novo Prêmio"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    value={value}
+                    onChange={(e) => setValue(e.target.value)}
+                  />
+                </div>
+                <div className="textField_dialog">
+                  <span>{selectedBackgroundColor}</span>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Novo Background"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    value={background}
+                    onChange={(e) => setBackground(e.target.value)}
+                  />
+                </div>
+                <div className="textField_dialog">
+                  <span>{selectedTextColor}</span>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Novo TextColor"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    value={textcolor}
+                    onChange={(e) => setTextcolor(e.target.value)}
+                  />
+                </div>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={handleCloseDialog}>Alterar</Button>
+              </DialogActions>
+            </Dialog>
             <br />
           </div>
           <Wheel
