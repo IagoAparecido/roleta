@@ -28,7 +28,12 @@ function DashboardRoulett() {
   const [mustSpin, setMustSpin] = useState(false);
   const [valueSelect, setValueSelect] = useState("");
   const [dataValue, setDataValue] = useState([]);
+  const [value, setValue] = useState("");
+
+  const [open1, setOpen1] = useState(false);
   const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const [data, setData] = useState([
     {
@@ -82,14 +87,12 @@ function DashboardRoulett() {
   }, [valueSelect]);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpen1(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleClose1 = () => {
+    setOpen1(false);
   };
-
-  console.log(data);
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -117,6 +120,8 @@ function DashboardRoulett() {
     textColor: item.style.textColor,
   }));
 
+  console.log(value);
+
   return (
     <div>
       <DashboardHeader>
@@ -140,8 +145,8 @@ function DashboardRoulett() {
               <Dialog
                 maxWidth={"xs"}
                 fullWidth={true}
-                open={open}
-                onClose={handleClose}
+                open={open1}
+                onClose={handleClose1}
               >
                 <DialogTitle>Adicionar novo curso</DialogTitle>
                 <DialogContent>
@@ -156,7 +161,7 @@ function DashboardRoulett() {
                   />
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose}>Adicionar</Button>
+                  <Button onClick={handleClose1}>Adicionar</Button>
                 </DialogActions>
               </Dialog>
             </div>
@@ -189,6 +194,7 @@ function DashboardRoulett() {
                         }}
                       >
                         <EditIcon
+                          onClick={handleOpen}
                           sx={{
                             cursor: "pointer",
                             ":hover": {
@@ -196,6 +202,65 @@ function DashboardRoulett() {
                             },
                           }}
                         />
+                        <div style={{ backgroundColor: "pink" }}>
+                          <Dialog
+                            BackdropProps={{
+                              style: {
+                                backgroundColor: "rgba(0, 0, 0, 0.1)",
+                                boxShadow: 2,
+                                // Change the background color and transparency here
+                              },
+                            }}
+                            maxWidth={"xs"}
+                            fullWidth={true}
+                            open={open}
+                            onClose={handleClose}
+                          >
+                            <DialogTitle>Editar opções</DialogTitle>
+                            <DialogContent>
+                              <div className="textField_dialog">
+                                <span>{row.value}</span>
+                                <TextField
+                                  autoFocus
+                                  margin="dense"
+                                  id="name"
+                                  label="Novo Prêmio"
+                                  type="text"
+                                  fullWidth
+                                  variant="standard"
+                                  onChange={(e) => setValue(e.target.value)}
+                                />
+                              </div>
+                              <div className="textField_dialog">
+                                <span>{row.backgroundColor}</span>
+                                <TextField
+                                  autoFocus
+                                  margin="dense"
+                                  id="name"
+                                  label="Novo Background"
+                                  type="text"
+                                  fullWidth
+                                  variant="standard"
+                                />
+                              </div>
+                              <div className="textField_dialog">
+                                <span>{row.textColor}</span>
+                                <TextField
+                                  autoFocus
+                                  margin="dense"
+                                  id="name"
+                                  label="Novo TextColor"
+                                  type="text"
+                                  fullWidth
+                                  variant="standard"
+                                />
+                              </div>
+                            </DialogContent>
+                            <DialogActions>
+                              <Button onClick={handleClose}>Alterar</Button>
+                            </DialogActions>
+                          </Dialog>
+                        </div>
                         <DeleteIcon
                           sx={{
                             color: "red",

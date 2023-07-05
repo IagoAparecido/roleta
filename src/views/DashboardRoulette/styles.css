@@ -34,3 +34,19 @@
   justify-content: space-between;
   align-items: center;
 }
+
+.input_text_item {
+  width: 100px;
+  height: 25px;
+  font-size: 14px;
+}
+
+.textField_dialog {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.textField_dialog span {
+  width: 100px;
+}
