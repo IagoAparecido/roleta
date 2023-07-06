@@ -10,27 +10,27 @@
       {
         "textColor": "#000000",
         "color": "#6ede8a",
-        "option": "999"
+        "option": "222"
       },
       {
         "textColor": "#000000",
         "color": "#92e6a7",
-        "option": "111"
+        "option": "333"
       },
       {
         "textColor": "#000000",
         "color": "#6ede8a",
-        "option": "999"
+        "option": "444"
       },
       {
         "textColor": "#000000",
         "color": "#92e6a7",
-        "option": "111"
+        "option": "555"
       },
       {
         "textColor": "#000000",
         "color": "#6ede8a",
-        "option": "999"
+        "option": "666"
       }
     ]
   },
@@ -40,7 +40,37 @@
       {
         "textColor": "#000000",
         "color": "#92e6a7",
-        "option": "222"
+        "option": "111"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#6ede8a",
+        "option": "fees"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#92e6a7",
+        "option": "333"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#6ede8a",
+        "option": "444"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#92e6a7",
+        "option": "555"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#6ede8a",
+        "option": "666"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#92e6a7",
+        "option": "777"
       },
       {
         "textColor": "#000000",
@@ -50,22 +80,32 @@
       {
         "textColor": "#000000",
         "color": "#92e6a7",
-        "option": "222"
+        "option": "999"
       },
       {
         "textColor": "#000000",
         "color": "#6ede8a",
-        "option": "888"
+        "option": "10"
       },
       {
         "textColor": "#000000",
         "color": "#92e6a7",
-        "option": "222"
+        "option": "11"
       },
       {
-        "textColor": "#111111",
+        "textColor": "#000000",
         "color": "#6ede8a",
-        "option": "888"
+        "option": "12"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#92e6a7",
+        "option": "13"
+      },
+      {
+        "textColor": "#000000",
+        "color": "#6ede8a",
+        "option": "14"
       }
     ]
   }
