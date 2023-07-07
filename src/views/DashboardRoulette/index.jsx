@@ -40,6 +40,7 @@ function DashboardRoulett() {
   const [selectedValue, setSelectedValue] = useState("");
   const [selectedBackgroundColor, setSelectedBackgroundColor] = useState("");
   const [selectedTextColor, setSelectedTextColor] = useState("");
+  const [course, setCourse] = useState("");
 
   const handleOpenDialog = (row) => {
     // setSelectedRow(row);
@@ -80,23 +81,56 @@ function DashboardRoulett() {
   ]);
 
   useEffect(() => {
-    fetch("../../data.json")
+    fetchData();
+  }, []);
+
+  const fetchData = () => {
+    fetch("http://localhost:3000/course")
       .then((res) => res.json())
       .then((data) => {
         setDataValue(data);
       });
-  }, []);
+  };
+
+  const handleSubmiteCourse = async () => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch("http://localhost:3000/course", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          course: course,
+        }),
+      });
+
+      if (response.ok) {
+        alert("Curso adicionado com sucesso");
+        handleClose1();
+        fetchData();
+      }
+    } catch (error) {
+      alert("Erro ao adicionar curso");
+
+      console.error(error);
+      handleClose1();
+    }
+  };
 
   useEffect(() => {
-    const selectedOption = dataValue.find((item) => item.curso === valueSelect);
+    const selectedOption = dataValue.find(
+      (item) => item.course === valueSelect
+    );
 
     if (selectedOption) {
-      let i = 0;
       const newData = selectedOption.value.map((item) => ({
-        option: i++ + ". " + item.option,
+        option: item.option,
         style: {
-          backgroundColor: `${item.color}`,
-          textColor: `${item.textColor}`,
+          backgroundColor: `${item.backgroundColor}`,
+          textColor: item.textColor,
         },
       }));
       setData(newData);
@@ -143,7 +177,7 @@ function DashboardRoulett() {
     textColor: item.style.textColor,
   }));
 
-  console.log(value);
+  console.log(valueSelect);
 
   return (
     <div>
@@ -156,8 +190,8 @@ function DashboardRoulett() {
             <div className="courses_more">
               <Select setValueSelect={setValueSelect}>
                 {dataValue.map((option, index) => (
-                  <option key={index} value={option.curso}>
-                    {option.curso}
+                  <option key={index} value={option.course}>
+                    {option.course}
                   </option>
                 ))}
               </Select>
@@ -174,6 +208,7 @@ function DashboardRoulett() {
                 <DialogTitle>Adicionar novo curso</DialogTitle>
                 <DialogContent>
                   <TextField
+                    onChange={(e) => setCourse(e.target.value)}
                     autoFocus
                     margin="dense"
                     id="name"
@@ -184,7 +219,7 @@ function DashboardRoulett() {
                   />
                 </DialogContent>
                 <DialogActions>
-                  <Button onClick={handleClose1}>Adicionar</Button>
+                  <Button onClick={handleSubmiteCourse}>Adicionar</Button>
                 </DialogActions>
               </Dialog>
             </div>
@@ -225,7 +260,6 @@ function DashboardRoulett() {
                             },
                           }}
                         />
-
                         <DeleteIcon
                           sx={{
                             color: "red",
@@ -238,7 +272,7 @@ function DashboardRoulett() {
                       </StyledTableCell>
                     </StyledTableRow>
                   ))}
-                  <StyledTableRow>
+                  <StyledTableRow disabled>
                     <StyledTableCell
                       onClick={handleClickOpen2}
                       sx={{

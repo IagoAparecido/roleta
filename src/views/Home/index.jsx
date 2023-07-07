@@ -203,8 +203,6 @@ function Home() {
       });
   }, []);
 
-  console.log(dataValue);
-
   useEffect(() => {
     const selectedOption = dataValue.find(
       (item) => item.course === valueSelect

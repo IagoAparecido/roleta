@@ -184,12 +184,12 @@ export default function TableData() {
             : rows
           ).map((row) => (
             <StyledTableRow key={row.cpf}>
-              <TableCell>{row.name}</TableCell>
+              <TableCell style={{ width: 200 }}>{row.name}</TableCell>
               <TableCell>{row.prize}</TableCell>
-              <TableCell>{row.email}</TableCell>
+              <TableCell style={{ width: 300 }}>{row.email}</TableCell>
               <TableCell>{row.tel}</TableCell>
               <TableCell>{row.cpf}</TableCell>
-              <TableCell style={{ width: 300 }}>{row.course}</TableCell>
+              <TableCell>{row.course}</TableCell>
             </StyledTableRow>
           ))}
           {emptyRows > 0 && (
