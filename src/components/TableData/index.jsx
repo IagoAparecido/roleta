@@ -105,88 +105,33 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-function createData(name, prize, email, tel, cpf, course) {
-  return { name, prize, email, tel, cpf, course };
-}
-
-const rows = [
-  createData(
-    "Rafael",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Direito"
-  ),
-  createData(
-    "Luan",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Arquitetura"
-  ),
-  createData(
-    "Leide",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Odontologia"
-  ),
-  createData(
-    "Natali",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Arquitetura"
-  ),
-  createData(
-    "Ricardo",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Administração"
-  ),
-  createData(
-    "Ricardo",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Administração"
-  ),
-  createData(
-    "Ricardo",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Administração"
-  ),
-  createData(
-    "Ricardo",
-    "50%",
-    "email@email.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Administração"
-  ),
-  createData(
-    "Ricardo",
-    "50%",
-    "iagoferreiraaparecido9@gmail.com",
-    "(66) 99999-9999",
-    "000.000.000-00",
-    "Administração"
-  ),
-];
-
-export default function CustomPaginationActionsTable() {
+export default function TableData() {
+  const [data, setData] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  React.useEffect(() => {
+    fetch("http://localhost:3000/person")
+      .then((res) => res.json())
+      .then((data) => {
+        setData(data);
+      });
+  }, []);
+
+  function createData(name, prize, email, tel, cpf, course) {
+    return { name, prize, email, tel, cpf, course };
+  }
+
+  const rows = data.map((item) =>
+    createData(
+      item.name,
+      item.prize,
+      item.email,
+      item.tel,
+      item.cpf,
+      item.course
+    )
+  );
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
@@ -239,12 +184,12 @@ export default function CustomPaginationActionsTable() {
             : rows
           ).map((row) => (
             <StyledTableRow key={row.cpf}>
-              <TableCell style={{ width: 200 }}>{row.name}</TableCell>
+              <TableCell>{row.name}</TableCell>
               <TableCell>{row.prize}</TableCell>
-              <TableCell style={{ width: 300 }}>{row.email}</TableCell>
+              <TableCell>{row.email}</TableCell>
               <TableCell>{row.tel}</TableCell>
               <TableCell>{row.cpf}</TableCell>
-              <TableCell>{row.course}</TableCell>
+              <TableCell style={{ width: 300 }}>{row.course}</TableCell>
             </StyledTableRow>
           ))}
           {emptyRows > 0 && (

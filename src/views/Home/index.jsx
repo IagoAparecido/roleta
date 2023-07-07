@@ -61,14 +61,19 @@ function Home() {
 
     if (isFormFilled && validateCPF(cpf)) {
       setErro(false);
+      setLoading(false);
     } else if (name || email || tel || cpf === "") {
       setErro(true);
+      setLoading(false);
       return;
     } else if (cpf.length <= 11) {
       setErro(true);
+      setLoading(false);
       return;
     } else if (!validateCPF(cpf)) {
       setErro(true);
+      setLoading(false);
+
       return;
     }
 
@@ -87,7 +92,7 @@ function Home() {
           email: email,
           tel: tel,
           cpf: cpf,
-          course: "Direito",
+          course: valueSelect,
           prize: data[newPrizeNumber].option,
         }),
       });
@@ -113,8 +118,6 @@ function Home() {
       console.error(error);
       setCpfRegisteredMessage(error.message);
     }
-
-    setLoading(false);
   };
 
   const formatCPF = (value) => {
@@ -193,20 +196,27 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch("../../data.json")
+    fetch("http://localhost:3000/course")
       .then((res) => res.json())
       .then((data) => {
         setDataValue(data);
       });
   }, []);
 
+  console.log(dataValue);
+
   useEffect(() => {
-    const selectedOption = dataValue.find((item) => item.curso === valueSelect);
+    const selectedOption = dataValue.find(
+      (item) => item.course === valueSelect
+    );
 
     if (selectedOption) {
       const newData = selectedOption.value.map((item) => ({
         option: item.option,
-        style: { backgroundColor: `${item.color}`, textColor: "#000000" },
+        style: {
+          backgroundColor: `${item.backgroundColor}`,
+          textColor: item.textColor,
+        },
       }));
       setData(newData);
     }
@@ -223,7 +233,6 @@ function Home() {
   };
 
   const desconto = data[prizeNumber].option;
-  console.log(desconto);
 
   return (
     <div className="container_app">
@@ -282,8 +291,8 @@ function Home() {
             {" "}
             <Select setValueSelect={setValueSelect}>
               {dataValue.map((option, index) => (
-                <option key={index} value={option.curso}>
-                  {option.curso}
+                <option key={index} value={option.course}>
+                  {option.course}
                 </option>
               ))}
             </Select>
