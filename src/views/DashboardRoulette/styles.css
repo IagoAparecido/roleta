@@ -50,3 +50,31 @@
 .textField_dialog span {
   width: 100px;
 }
+
+.button_icon {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+.button_icon:hover {
+  color: gray;
+}
+
+.courses_more .button_icon {
+  /* position: fixed; */
+  margin-right: -100px;
+  margin-left: -30px;
+  margin-top: -10px;
+}
+.button_delete {
+  border-radius: 5px;
+  border: none;
+  background-color: transparent;
+  padding: 10px;
+  cursor: pointer;
+  transition: 0.3s all;
+}
+.button_delete:hover {
+  color: #fff;
+  background-color: rgb(255, 0, 0);
+}

@@ -1,4 +1,5 @@
 import "./styles.css";
+import { useForm } from "react-hook-form";
 import { useEffect, useState } from "react";
 import DashboardHeader from "../../components/DashboardHeader";
 import { Wheel } from "react-custom-roulette";
@@ -28,22 +29,25 @@ function DashboardRoulett() {
   const [mustSpin, setMustSpin] = useState(false);
   const [valueSelect, setValueSelect] = useState("");
   const [dataValue, setDataValue] = useState([]);
-  const [value, setValue] = useState("");
-  const [background, setBackground] = useState("");
-  const [textcolor, setTextcolor] = useState("");
+  const [course, setCourse] = useState("");
+  const [id, setId] = useState("");
+
+  const [options] = useState([
+    { textColor: "#000000", backgroundColor: "#6ede8a", option: "10%" },
+  ]);
+
+  const [emptyCourse, setEmptyCourse] = useState(false);
+  const [selectedValue, setSelectedValue] = useState("");
+  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState("");
+  const [selectedTextColor, setSelectedTextColor] = useState("");
 
   const [open1, setOpen1] = useState(false);
   const [open3, setOpen3] = useState(false);
   const [open, setOpen] = useState(false);
 
-  // const [selectedRow, setSelectedRow] = useState(null);
-  const [selectedValue, setSelectedValue] = useState("");
-  const [selectedBackgroundColor, setSelectedBackgroundColor] = useState("");
-  const [selectedTextColor, setSelectedTextColor] = useState("");
-  const [course, setCourse] = useState("");
+  const { register, handleSubmit, reset } = useForm();
 
   const handleOpenDialog = (row) => {
-    // setSelectedRow(row);
     setSelectedValue(row.value);
     setSelectedBackgroundColor(row.backgroundColor);
     setSelectedTextColor(row.textColor);
@@ -104,13 +108,13 @@ function DashboardRoulett() {
         },
         body: JSON.stringify({
           course: course,
+          value: options,
         }),
       });
 
       if (response.ok) {
         alert("Curso adicionado com sucesso");
         handleClose1();
-        fetchData();
       }
     } catch (error) {
       alert("Erro ao adicionar curso");
@@ -119,22 +123,115 @@ function DashboardRoulett() {
       handleClose1();
     }
   };
+  const handleDeleteCourse = async () => {
+    event.preventDefault();
+    const confirmed = window.confirm("Tem certeza que deseja excluir o curso?");
+    if (!confirmed) {
+      return;
+    }
 
-  useEffect(() => {
+    try {
+      const response = await fetch(`http://localhost:3000/course/${id}`, {
+        method: "DELETE",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        alert("Curso removido com sucesso");
+        window.location.reload();
+      }
+    } catch (error) {
+      alert("Erro ao remover curso");
+
+      console.error(error);
+    }
+  };
+
+  const handleUpdateItemCourse = async (data) => {
+    console.log(data);
+    try {
+      const response = await fetch(`http://localhost:3000/course/${id}`, {
+        method: "PATCH",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          value: [
+            {
+              option: data.valueUpdate,
+              backgroundColor: data.backgroundColorUpdate,
+              textColor: data.textColorUpdate,
+            },
+          ],
+        }),
+      });
+      if (response.ok) {
+        alert("Item adicionado com sucesso");
+        handleClose2();
+        reset();
+      }
+    } catch (error) {
+      alert("Erro ao adicionar item");
+      handleClose2();
+      console.error(error);
+    }
+  };
+  // const handleDeleteItemCourse = async () => {
+  //   event.preventDefault();
+  //   const confirmed = window.confirm("Tem certeza que deseja excluir o item?");
+  //   if (!confirmed) {
+  //     return;
+  //   }
+
+  //   try {
+  //     const response = await fetch(`http://localhost:3000/course/${id}`, {
+  //       method: "DELETE",
+  //       headers: {
+  //         Accept: "application/json",
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     if (response.ok) {
+  //       alert("Curso removido com sucesso");
+  //       window.location.reload();
+  //     }
+  //   } catch (error) {
+  //     alert("Erro ao remover curso");
+
+  //     console.error(error);
+  //   }
+  // };
+
+  const fetchNewData = () => {
     const selectedOption = dataValue.find(
       (item) => item.course === valueSelect
     );
 
     if (selectedOption) {
+      setId(selectedOption._id);
       const newData = selectedOption.value.map((item) => ({
         option: item.option,
         style: {
           backgroundColor: `${item.backgroundColor}`,
-          textColor: item.textColor,
+          textColor: `${item.textColor}`,
         },
       }));
+
       setData(newData);
     }
+
+    if (valueSelect === "") {
+      setEmptyCourse(true);
+    } else {
+      setEmptyCourse(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchNewData();
   }, [valueSelect]);
 
   const handleClickOpen = () => {
@@ -177,8 +274,6 @@ function DashboardRoulett() {
     textColor: item.style.textColor,
   }));
 
-  console.log(valueSelect);
-
   return (
     <div>
       <DashboardHeader>
@@ -188,6 +283,21 @@ function DashboardRoulett() {
             <br />
             <h3>Cursos:</h3>
             <div className="courses_more">
+              {emptyCourse ? (
+                ""
+              ) : (
+                <button className="button_icon" onClick={handleDeleteCourse}>
+                  <DeleteIcon
+                    sx={{
+                      color: "red",
+                      cursor: "pointer",
+                      ":hover": {
+                        color: "#d50000",
+                      },
+                    }}
+                  />
+                </button>
+              )}
               <Select setValueSelect={setValueSelect}>
                 {dataValue.map((option, index) => (
                   <option key={index} value={option.course}>
@@ -195,10 +305,14 @@ function DashboardRoulett() {
                   </option>
                 ))}
               </Select>
-              <button className="button_add" onClick={handleClickOpen}>
-                <AddIcon />
-                Adicionar novo curso
-              </button>
+
+              <div className="div_addCourse">
+                <button className="button_add" onClick={handleClickOpen}>
+                  <AddIcon />
+                  Adicionar novo curso
+                </button>
+              </div>
+
               <Dialog
                 maxWidth={"xs"}
                 fullWidth={true}
@@ -238,40 +352,59 @@ function DashboardRoulett() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {rows.map((row, index) => (
-                    <StyledTableRow key={index}>
-                      <StyledTableCell component="th" scope="row">
-                        {row.value}
-                      </StyledTableCell>
-                      <StyledTableCell>{row.backgroundColor}</StyledTableCell>
-                      <StyledTableCell>{row.textColor}</StyledTableCell>
-                      <StyledTableCell
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-around",
-                        }}
-                      >
-                        <EditIcon
-                          onClick={() => handleOpenDialog(row)}
+                  {rows.length > 0 ? (
+                    rows.map((row, index) => (
+                      <StyledTableRow key={index}>
+                        <StyledTableCell component="th" scope="row">
+                          {row.value}
+                        </StyledTableCell>
+                        <StyledTableCell>{row.backgroundColor}</StyledTableCell>
+                        <StyledTableCell>{row.textColor}</StyledTableCell>
+                        <StyledTableCell
                           sx={{
-                            cursor: "pointer",
-                            ":hover": {
-                              color: "gray",
-                            },
+                            display: "flex",
+                            justifyContent: "space-around",
                           }}
-                        />
-                        <DeleteIcon
-                          sx={{
-                            color: "red",
-                            cursor: "pointer",
-                            ":hover": {
-                              color: "#d50000",
-                            },
-                          }}
-                        />
-                      </StyledTableCell>
-                    </StyledTableRow>
-                  ))}
+                        >
+                          <button
+                            disabled={emptyCourse}
+                            className="button_icon"
+                            onClick={() => handleOpenDialog(row)}
+                          >
+                            <EditIcon />
+                          </button>
+                          <button
+                            disabled={emptyCourse}
+                            className="button_icon"
+                          >
+                            <DeleteIcon
+                              sx={{
+                                color: "red",
+                                cursor: "pointer",
+                                ":hover": {
+                                  color: "#d50000",
+                                },
+                              }}
+                            />
+                          </button>
+                        </StyledTableCell>
+                      </StyledTableRow>
+                    ))
+                  ) : (
+                    <StyledTableCell
+                      onClick={handleClickOpen2}
+                      sx={{
+                        cursor: "pointer",
+                        ":hover": {
+                          backgroundColor: "#f1f1f1f1",
+                        },
+                      }}
+                    >
+                      <AddIcon sx={{ color: "green" }} />
+                      Adicionar item
+                    </StyledTableCell>
+                  )}
+
                   <StyledTableRow disabled>
                     <StyledTableCell
                       onClick={handleClickOpen2}
@@ -292,6 +425,7 @@ function DashboardRoulett() {
                       open={open3}
                       onClose={handleClose2}
                     >
+                      {/* <form> */}
                       <DialogTitle>Adicionar novo item</DialogTitle>
                       <DialogContent>
                         <TextField
@@ -323,8 +457,9 @@ function DashboardRoulett() {
                         />
                       </DialogContent>
                       <DialogActions>
-                        <Button onClick={handleClose1}>Adicionar</Button>
+                        <Button type="submit">Adicionar</Button>
                       </DialogActions>
+                      {/* </form> */}
                     </Dialog>
                     <StyledTableCell></StyledTableCell>
                     <StyledTableCell></StyledTableCell>
@@ -345,54 +480,55 @@ function DashboardRoulett() {
               open={open}
               onClose={handleCloseDialog}
             >
-              <DialogTitle>Editar opções</DialogTitle>
-              <DialogContent>
-                <div className="textField_dialog">
-                  <span>{selectedValue}</span>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Novo Prêmio"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    value={value}
-                    onChange={(e) => setValue(e.target.value)}
-                  />
-                </div>
-                <div className="textField_dialog">
-                  <span>{selectedBackgroundColor}</span>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Novo Background"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    value={background}
-                    onChange={(e) => setBackground(e.target.value)}
-                  />
-                </div>
-                <div className="textField_dialog">
-                  <span>{selectedTextColor}</span>
-                  <TextField
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Novo TextColor"
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                    value={textcolor}
-                    onChange={(e) => setTextcolor(e.target.value)}
-                  />
-                </div>
-              </DialogContent>
-              <DialogActions>
-                <Button onClick={handleCloseDialog}>Alterar</Button>
-              </DialogActions>
+              <form onSubmit={handleSubmit(handleUpdateItemCourse)}>
+                <DialogTitle>Editar opções</DialogTitle>
+                <DialogContent>
+                  <div className="textField_dialog">
+                    <TextField
+                      {...register("valueUpdate")}
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Novo Prêmio"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      defaultValue={selectedValue}
+                    />
+                  </div>
+                  <div className="textField_dialog">
+                    <TextField
+                      {...register("backgroundColorUpdate")}
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Novo Background"
+                      type="text"
+                      fullWidth
+                      defaultValue={selectedBackgroundColor}
+                      variant="standard"
+                    />
+                  </div>
+                  <div className="textField_dialog">
+                    <TextField
+                      {...register("textColorUpdate")}
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Novo TextColor"
+                      type="text"
+                      fullWidth
+                      variant="standard"
+                      defaultValue={selectedTextColor}
+                    />
+                  </div>
+                </DialogContent>
+                <DialogActions>
+                  <Button type="submit" onClick={handleCloseDialog}>
+                    Alterar
+                  </Button>
+                </DialogActions>
+              </form>
             </Dialog>
             <br />
           </div>
