@@ -95,7 +95,6 @@ function DashboardRoulett() {
         setDataValue(data);
       });
   };
-
   const handleSubmiteCourse = async () => {
     event.preventDefault();
 
@@ -169,16 +168,18 @@ function DashboardRoulett() {
         }),
       });
       if (response.ok) {
-        alert("Item adicionado com sucesso");
+        alert("Item alterado com sucesso");
         handleClose2();
         reset();
+        window.location.reload();
       }
     } catch (error) {
-      alert("Erro ao adicionar item");
+      alert("Erro ao alterar item");
       handleClose2();
       console.error(error);
     }
   };
+
   // const handleDeleteItemCourse = async () => {
   //   event.preventDefault();
   //   const confirmed = window.confirm("Tem certeza que deseja excluir o item?");
