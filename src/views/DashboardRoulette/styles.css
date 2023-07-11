@@ -78,3 +78,11 @@
   color: #fff;
   background-color: rgb(255, 0, 0);
 }
+.button_addItem {
+  border: none;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+  cursor: pointer;
+}

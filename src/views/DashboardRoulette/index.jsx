@@ -31,6 +31,7 @@ function DashboardRoulett() {
   const [dataValue, setDataValue] = useState([]);
   const [course, setCourse] = useState("");
   const [id, setId] = useState("");
+  const [idPatch, setIdPatch] = useState("");
 
   const [options] = useState([
     { textColor: "#000000", backgroundColor: "#6ede8a", option: "10%" },
@@ -48,6 +49,7 @@ function DashboardRoulett() {
   const { register, handleSubmit, reset } = useForm();
 
   const handleOpenDialog = (row) => {
+    setIdPatch(row.id);
     setSelectedValue(row.value);
     setSelectedBackgroundColor(row.backgroundColor);
     setSelectedTextColor(row.textColor);
@@ -61,33 +63,38 @@ function DashboardRoulett() {
     {
       option: "0. ??",
       style: { backgroundColor: "#92e6a7", textColor: "#000000" },
+      id: 0,
     },
     {
       option: "1. ??",
       style: { backgroundColor: "#6ede8a", textColor: "#000000" },
+      id: 1,
     },
     {
       option: "2. ??",
       style: { backgroundColor: "#92e6a7", textColor: "#000000" },
+      id: 2,
     },
     {
       option: "3. ??",
       style: { backgroundColor: "#6ede8a", textColor: "#000000" },
+      id: 3,
     },
     {
       option: "4. ??",
       style: { backgroundColor: "#92e6a7", textColor: "#000000" },
+      id: 4,
     },
     {
       option: "5. ??",
       style: { backgroundColor: "#6ede8a", textColor: "#000000" },
+      id: 5,
     },
   ]);
 
   useEffect(() => {
     fetchData();
   }, []);
-
   const fetchData = () => {
     fetch("http://localhost:3000/course")
       .then((res) => res.json())
@@ -95,6 +102,35 @@ function DashboardRoulett() {
         setDataValue(data);
       });
   };
+  const fetchNewData = () => {
+    const selectedOption = dataValue.find(
+      (item) => item.course === valueSelect
+    );
+
+    if (selectedOption) {
+      setId(selectedOption._id);
+      const newData = selectedOption.value.map((item) => ({
+        option: item.option,
+        style: {
+          backgroundColor: `${item.backgroundColor}`,
+          textColor: `${item.textColor}`,
+        },
+        id: item._id,
+      }));
+
+      setData(newData);
+    }
+
+    if (valueSelect === "") {
+      setEmptyCourse(true);
+    } else {
+      setEmptyCourse(false);
+    }
+  };
+  useEffect(() => {
+    fetchNewData();
+  }, [valueSelect]);
+
   const handleSubmiteCourse = async () => {
     event.preventDefault();
 
@@ -114,6 +150,7 @@ function DashboardRoulett() {
       if (response.ok) {
         alert("Curso adicionado com sucesso");
         handleClose1();
+        fetchData();
       }
     } catch (error) {
       alert("Erro ao adicionar curso");
@@ -149,91 +186,97 @@ function DashboardRoulett() {
   };
 
   const handleUpdateItemCourse = async (data) => {
-    console.log(data);
+    event.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3000/course/${id}`, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          value: [
-            {
-              option: data.valueUpdate,
-              backgroundColor: data.backgroundColorUpdate,
-              textColor: data.textColorUpdate,
-            },
-          ],
-        }),
-      });
+      const response = await fetch(
+        `http://localhost:3000/course/${id}/${idPatch}`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            option: data.valueAdd,
+            backgroundColor: data.backgroundColorAdd,
+            textColor: data.textColorAdd,
+          }),
+        }
+      );
       if (response.ok) {
         alert("Item alterado com sucesso");
-        handleClose2();
+        handleCloseDialog();
         reset();
         window.location.reload();
       }
     } catch (error) {
       alert("Erro ao alterar item");
-      handleClose2();
+      handleCloseDialog();
+      reset();
       console.error(error);
     }
   };
+  const handleDeleteItemCourse = async (row) => {
+    event.preventDefault();
+    setIdPatch(row.id);
 
-  // const handleDeleteItemCourse = async () => {
-  //   event.preventDefault();
-  //   const confirmed = window.confirm("Tem certeza que deseja excluir o item?");
-  //   if (!confirmed) {
-  //     return;
-  //   }
+    try {
+      const response = await fetch(
+        `http://localhost:3000/course/${id}/${idPatch}`,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-  //   try {
-  //     const response = await fetch(`http://localhost:3000/course/${id}`, {
-  //       method: "DELETE",
-  //       headers: {
-  //         Accept: "application/json",
-  //         "Content-Type": "application/json",
-  //       },
-  //     });
-  //     if (response.ok) {
-  //       alert("Curso removido com sucesso");
-  //       window.location.reload();
-  //     }
-  //   } catch (error) {
-  //     alert("Erro ao remover curso");
+      console.log(response);
 
-  //     console.error(error);
-  //   }
-  // };
-
-  const fetchNewData = () => {
-    const selectedOption = dataValue.find(
-      (item) => item.course === valueSelect
-    );
-
-    if (selectedOption) {
-      setId(selectedOption._id);
-      const newData = selectedOption.value.map((item) => ({
-        option: item.option,
-        style: {
-          backgroundColor: `${item.backgroundColor}`,
-          textColor: `${item.textColor}`,
-        },
-      }));
-
-      setData(newData);
-    }
-
-    if (valueSelect === "") {
-      setEmptyCourse(true);
-    } else {
-      setEmptyCourse(false);
+      // if (response.ok) {
+      // alert("Item Removido com sucesso");
+      // reset();
+      // window.location.reload();
+      // }
+    } catch (error) {
+      // alert("Erro ao remover item");
+      // reset();
+      // console.error(error);
     }
   };
 
-  useEffect(() => {
-    fetchNewData();
-  }, [valueSelect]);
+  console.log(idPatch);
+
+  const handleAddItemCourse = async (data) => {
+    event.preventDefault();
+
+    try {
+      const response = await fetch(`http://localhost:3000/course/${id}`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          value: {
+            option: data.valueAdd,
+            backgroundColor: data.backgroundColorAdd,
+            textColor: data.textColorAdd,
+          },
+        }),
+      });
+
+      if (response.ok) {
+        alert("Item adicionado com sucesso");
+        window.location.reload();
+      }
+    } catch (error) {
+      alert("Erro ao adicionar item");
+
+      console.error(error);
+    }
+  };
 
   const handleClickOpen = () => {
     setOpen1(true);
@@ -273,6 +316,7 @@ function DashboardRoulett() {
     value: item.option,
     backgroundColor: item.style.backgroundColor,
     textColor: item.style.textColor,
+    id: item.id,
   }));
 
   return (
@@ -320,22 +364,25 @@ function DashboardRoulett() {
                 open={open1}
                 onClose={handleClose1}
               >
-                <DialogTitle>Adicionar novo curso</DialogTitle>
-                <DialogContent>
-                  <TextField
-                    onChange={(e) => setCourse(e.target.value)}
-                    autoFocus
-                    margin="dense"
-                    id="name"
-                    label="Curso..."
-                    type="text"
-                    fullWidth
-                    variant="standard"
-                  />
-                </DialogContent>
-                <DialogActions>
-                  <Button onClick={handleSubmiteCourse}>Adicionar</Button>
-                </DialogActions>
+                <form onSubmit={handleSubmiteCourse}>
+                  <DialogTitle>Adicionar novo curso</DialogTitle>
+                  <DialogContent>
+                    <TextField
+                      onChange={(e) => setCourse(e.target.value)}
+                      autoFocus
+                      margin="dense"
+                      id="name"
+                      label="Curso..."
+                      type="text"
+                      fullWidth
+                      required
+                      variant="standard"
+                    />
+                  </DialogContent>
+                  <DialogActions>
+                    <Button type="submit">Adicionar</Button>
+                  </DialogActions>
+                </form>
               </Dialog>
             </div>
 
@@ -375,8 +422,9 @@ function DashboardRoulett() {
                             <EditIcon />
                           </button>
                           <button
-                            disabled={emptyCourse}
+                            disabled={emptyCourse || rows.length == 1}
                             className="button_icon"
+                            onClick={() => handleDeleteItemCourse(row)}
                           >
                             <DeleteIcon
                               sx={{
@@ -406,9 +454,8 @@ function DashboardRoulett() {
                     </StyledTableCell>
                   )}
 
-                  <StyledTableRow disabled>
+                  <StyledTableRow>
                     <StyledTableCell
-                      onClick={handleClickOpen2}
                       sx={{
                         cursor: "pointer",
                         ":hover": {
@@ -416,8 +463,14 @@ function DashboardRoulett() {
                         },
                       }}
                     >
-                      <AddIcon sx={{ color: "green" }} />
-                      Adicionar item
+                      <button
+                        className="button_addItem"
+                        onClick={handleClickOpen2}
+                        disabled={emptyCourse}
+                      >
+                        <AddIcon sx={{ color: "green" }} />
+                        Adicionar item
+                      </button>
                     </StyledTableCell>
 
                     <Dialog
@@ -426,41 +479,51 @@ function DashboardRoulett() {
                       open={open3}
                       onClose={handleClose2}
                     >
-                      {/* <form> */}
-                      <DialogTitle>Adicionar novo item</DialogTitle>
-                      <DialogContent>
-                        <TextField
-                          autoFocus
-                          margin="dense"
-                          id="name"
-                          label="Prêmio"
-                          type="text"
-                          fullWidth
-                          variant="standard"
-                        />
-                        <TextField
-                          autoFocus
-                          margin="dense"
-                          id="name"
-                          label="Background"
-                          type="text"
-                          fullWidth
-                          variant="standard"
-                        />
-                        <TextField
-                          autoFocus
-                          margin="dense"
-                          id="name"
-                          label="TextColor"
-                          type="text"
-                          fullWidth
-                          variant="standard"
-                        />
-                      </DialogContent>
-                      <DialogActions>
-                        <Button type="submit">Adicionar</Button>
-                      </DialogActions>
-                      {/* </form> */}
+                      <form onSubmit={handleSubmit(handleAddItemCourse)}>
+                        <DialogTitle>Adicionar novo item</DialogTitle>
+                        <DialogContent>
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Prêmio"
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            required
+                            {...register("valueAdd", { required: true })}
+                          />
+
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Background"
+                            type="text"
+                            required
+                            fullWidth
+                            variant="standard"
+                            {...register("backgroundColorAdd", {
+                              required: true,
+                            })}
+                          />
+
+                          <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="TextColor"
+                            required
+                            type="text"
+                            fullWidth
+                            variant="standard"
+                            {...register("textColorAdd", { required: true })}
+                          />
+                        </DialogContent>
+                        <DialogActions>
+                          <Button type="submit">Adicionar</Button>
+                        </DialogActions>
+                      </form>
                     </Dialog>
                     <StyledTableCell></StyledTableCell>
                     <StyledTableCell></StyledTableCell>
@@ -482,52 +545,51 @@ function DashboardRoulett() {
               onClose={handleCloseDialog}
             >
               <form onSubmit={handleSubmit(handleUpdateItemCourse)}>
-                <DialogTitle>Editar opções</DialogTitle>
+                <DialogTitle>Atualizar item</DialogTitle>
                 <DialogContent>
-                  <div className="textField_dialog">
-                    <TextField
-                      {...register("valueUpdate")}
-                      autoFocus
-                      margin="dense"
-                      id="name"
-                      label="Novo Prêmio"
-                      type="text"
-                      fullWidth
-                      variant="standard"
-                      defaultValue={selectedValue}
-                    />
-                  </div>
-                  <div className="textField_dialog">
-                    <TextField
-                      {...register("backgroundColorUpdate")}
-                      autoFocus
-                      margin="dense"
-                      id="name"
-                      label="Novo Background"
-                      type="text"
-                      fullWidth
-                      defaultValue={selectedBackgroundColor}
-                      variant="standard"
-                    />
-                  </div>
-                  <div className="textField_dialog">
-                    <TextField
-                      {...register("textColorUpdate")}
-                      autoFocus
-                      margin="dense"
-                      id="name"
-                      label="Novo TextColor"
-                      type="text"
-                      fullWidth
-                      variant="standard"
-                      defaultValue={selectedTextColor}
-                    />
-                  </div>
+                  <TextField
+                    defaultValue={selectedValue}
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Prêmio"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    required
+                    {...register("valueAdd", { required: true })}
+                  />
+
+                  <TextField
+                    defaultValue={selectedBackgroundColor}
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Background"
+                    type="text"
+                    required
+                    fullWidth
+                    variant="standard"
+                    {...register("backgroundColorAdd", {
+                      required: true,
+                    })}
+                  />
+
+                  <TextField
+                    defaultValue={selectedTextColor}
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="TextColor"
+                    required
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    {...register("textColorAdd", { required: true })}
+                  />
                 </DialogContent>
                 <DialogActions>
-                  <Button type="submit" onClick={handleCloseDialog}>
-                    Alterar
-                  </Button>
+                  <Button type="submit">Adicionar</Button>
                 </DialogActions>
               </form>
             </Dialog>
