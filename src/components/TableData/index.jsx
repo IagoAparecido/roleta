@@ -105,18 +105,9 @@ TablePaginationActions.propTypes = {
   rowsPerPage: PropTypes.number.isRequired,
 };
 
-export default function TableData() {
-  const [data, setData] = React.useState([]);
+export default function TableData({ data, search }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
-  React.useEffect(() => {
-    fetch("http://localhost:3000/person")
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      });
-  }, []);
 
   function createData(name, prize, email, tel, cpf, course) {
     return { name, prize, email, tel, cpf, course };
@@ -131,6 +122,10 @@ export default function TableData() {
       item.cpf,
       item.course
     )
+  );
+
+  const filteredRows = rows.filter((row) =>
+    row.name.toLowerCase().includes(search.toLowerCase())
   );
 
   const emptyRows =
@@ -180,8 +175,11 @@ export default function TableData() {
         </TableHead>
         <TableBody>
           {(rowsPerPage > 0
-            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            : rows
+            ? filteredRows.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage
+              )
+            : filteredRows
           ).map((row) => (
             <StyledTableRow key={row.cpf}>
               <TableCell style={{ width: 200 }}>{row.name}</TableCell>

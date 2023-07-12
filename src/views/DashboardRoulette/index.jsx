@@ -216,15 +216,19 @@ function DashboardRoulett() {
       console.error(error);
     }
   };
+
   const handleDeleteItemCourse = async (row) => {
     event.preventDefault();
-    setIdPatch(row.id);
+    const confirmed = window.confirm("Tem certeza que deseja remover o item?");
+    if (!confirmed) {
+      return;
+    }
 
     try {
       const response = await fetch(
-        `http://localhost:3000/course/${id}/${idPatch}`,
+        `http://localhost:3000/course/delete/${id}/${row.id}`,
         {
-          method: "GET",
+          method: "DELETE",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -232,21 +236,17 @@ function DashboardRoulett() {
         }
       );
 
-      console.log(response);
-
-      // if (response.ok) {
-      // alert("Item Removido com sucesso");
-      // reset();
-      // window.location.reload();
-      // }
+      if (response.ok) {
+        alert("Item Removido com sucesso");
+        reset();
+        window.location.reload();
+      }
     } catch (error) {
-      // alert("Erro ao remover item");
-      // reset();
-      // console.error(error);
+      alert("Erro ao remover item");
+      reset();
+      console.error(error);
     }
   };
-
-  console.log(idPatch);
 
   const handleAddItemCourse = async (data) => {
     event.preventDefault();
