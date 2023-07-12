@@ -115,7 +115,6 @@ function Home() {
         }, 9000);
       }
     } catch (error) {
-      console.error(error);
       setCpfRegisteredMessage(error.message);
     }
   };

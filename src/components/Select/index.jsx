@@ -8,9 +8,7 @@ function Select(props) {
         required
         onChange={(e) => props.setValueSelect(e.target.value)}
       >
-        <option value="" disabled selected>
-          Selecione o curso
-        </option>
+        <option value="">Selecione o curso</option>
         {props.children}
       </select>
       <span className="highlight"></span>

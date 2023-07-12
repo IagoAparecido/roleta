@@ -154,8 +154,6 @@ function DashboardRoulett() {
       }
     } catch (error) {
       alert("Erro ao adicionar curso");
-
-      console.error(error);
       handleClose1();
     }
   };
@@ -180,8 +178,6 @@ function DashboardRoulett() {
       }
     } catch (error) {
       alert("Erro ao remover curso");
-
-      console.error(error);
     }
   };
 
@@ -213,7 +209,6 @@ function DashboardRoulett() {
       alert("Erro ao alterar item");
       handleCloseDialog();
       reset();
-      console.error(error);
     }
   };
 
@@ -244,7 +239,6 @@ function DashboardRoulett() {
     } catch (error) {
       alert("Erro ao remover item");
       reset();
-      console.error(error);
     }
   };
 
@@ -273,8 +267,6 @@ function DashboardRoulett() {
       }
     } catch (error) {
       alert("Erro ao adicionar item");
-
-      console.error(error);
     }
   };
 

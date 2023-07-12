@@ -64,6 +64,11 @@ const Drawer = styled(MuiDrawer, {
 
 const defaultTheme = createTheme();
 
+const logout = () => {
+  localStorage.clear();
+  window.location.reload();
+};
+
 export default function Dashboard(props) {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -105,9 +110,9 @@ export default function Dashboard(props) {
             >
               Dashboard
             </Typography>
-            <span>Usuário</span>
+            <span>{localStorage.getItem("name")}</span>
             <IconButton color="inherit">
-              <ExitToAppIcon />
+              <ExitToAppIcon onClick={logout} />
             </IconButton>
           </Toolbar>
         </AppBar>
