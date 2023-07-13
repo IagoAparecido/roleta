@@ -6,7 +6,7 @@ import Dashboard from "../views/Dashboard";
 import DashboardRoulette from "../views/DashboardRoulette";
 import DashboardUsers from "../views/DashboardUsers";
 
-import { PrivateRoute } from "./privateRoute";
+import { PrivateRoute, PrivateRouteUser } from "./privateRoute";
 
 function Router() {
   return (
@@ -34,9 +34,9 @@ function Router() {
         <Route
           path="/dashboard/usuarios"
           element={
-            <PrivateRoute>
+            <PrivateRouteUser>
               <DashboardUsers />
-            </PrivateRoute>
+            </PrivateRouteUser>
           }
         />
       </Routes>

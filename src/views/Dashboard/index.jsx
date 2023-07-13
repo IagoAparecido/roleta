@@ -8,13 +8,25 @@ function Dashboard() {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
 
+  var bearer = "Bearer " + localStorage.getItem("token");
   useEffect(() => {
-    fetch("http://localhost:3000/person")
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    fetch("http://localhost:3000/person", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setData(data);
       });
-  }, []);
+  };
 
   return (
     <DashboardHeader>

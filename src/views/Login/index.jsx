@@ -27,12 +27,12 @@ function Login() {
       });
 
       const responseData = await response.json();
-      console.log(responseData);
-      console.log(response);
 
       if (response.status === 200) {
         localStorage.setItem("token", responseData.token);
         localStorage.setItem("name", responseData.name);
+        localStorage.setItem("email", responseData.email);
+        localStorage.setItem("status", responseData.status);
 
         window.location.href = "/dashboard";
       }
@@ -47,6 +47,7 @@ function Login() {
     } catch (error) {
       console.log(error);
       setLoading(false);
+      alert("Erro ao realizar o login, tente novamente mais tarde.");
     }
   };
 

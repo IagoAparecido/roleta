@@ -7,6 +7,8 @@ import PeopleIcon from "@mui/icons-material/People";
 import PieChartIcon from "@mui/icons-material/PieChart";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
 
+const checkStatus = localStorage.getItem("status");
+
 export const mainListItems = (
   <React.Fragment>
     <a href="/dashboard">
@@ -25,13 +27,15 @@ export const mainListItems = (
         <ListItemText primary="Roleta" />
       </ListItemButton>
     </a>
-    <a href="/dashboard/usuarios">
-      <ListItemButton>
-        <ListItemIcon>
-          <PeopleIcon />
-        </ListItemIcon>
-        <ListItemText primary="Usuários" />
-      </ListItemButton>
-    </a>
+    {checkStatus === "0" && (
+      <a href="/dashboard/usuarios">
+        <ListItemButton>
+          <ListItemIcon>
+            <PeopleIcon />
+          </ListItemIcon>
+          <ListItemText primary="Usuários" />
+        </ListItemButton>
+      </a>
+    )}
   </React.Fragment>
 );

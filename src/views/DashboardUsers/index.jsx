@@ -33,21 +33,24 @@ function DashboardRoulett() {
   const [data, setData] = useState([]);
   const [id, setId] = useState([]);
   const [error, setError] = useState(false);
-  const [emptyUser, setEmptyUser] = useState(false);
 
   useEffect(() => {
     fetchData();
   }, []);
   const fetchData = () => {
-    fetch("http://localhost:3000/user")
+    var bearer = "Bearer " + localStorage.getItem("token");
+
+    fetch("http://localhost:3000/user", {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setData(data);
-        if (data.length === 1) {
-          setEmptyUser(true);
-        } else {
-          setEmptyUser(false);
-        }
       });
   };
 
@@ -204,6 +207,8 @@ function DashboardRoulett() {
     }
   };
 
+  const emailCheck = localStorage.getItem("email");
+
   return (
     <div>
       <DashboardHeader>
@@ -271,10 +276,8 @@ function DashboardRoulett() {
                     />
 
                     <select required {...register("status")}>
-                      <option value="1">1</option>
-                      <option value="2">2</option>
-                      <option value="3">3</option>
-                      <option value="4">4</option>
+                      <option value="0">0 - admin</option>
+                      <option value="1">1 - comercial</option>
                     </select>
 
                     {error && (
@@ -320,12 +323,15 @@ function DashboardRoulett() {
                         }}
                       >
                         <button
-                          disabled={emptyUser}
                           onClick={() => handleOpen(item)}
+                          style={{
+                            border: "none",
+                            background: "transparent",
+                            cursor: "pointer",
+                          }}
                         >
                           <EditIcon
                             sx={{
-                              cursor: "pointer",
                               ":hover": {
                                 color: "gray",
                               },
@@ -409,10 +415,8 @@ function DashboardRoulett() {
                                 required
                                 {...register("status")}
                               >
-                                <option value="1">1</option>
-                                <option value="2">2</option>
-                                <option value="3">3</option>
-                                <option value="4">4</option>
+                                <option value="0">0 - admin</option>
+                                <option value="1">1 - comercial</option>
                               </select>
                             </DialogContent>
                             <DialogActions>
@@ -421,8 +425,13 @@ function DashboardRoulett() {
                           </form>
                         </Dialog>
                         <button
-                          disabled={emptyUser}
+                          disabled={emailCheck === item.email}
                           onClick={() => handleDeleteAcount(item)}
+                          style={{
+                            border: "none",
+                            background: "transparent",
+                            cursor: "pointer",
+                          }}
                         >
                           <DeleteIcon
                             sx={{

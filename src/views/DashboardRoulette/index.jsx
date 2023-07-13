@@ -46,6 +46,8 @@ function DashboardRoulett() {
   const [open3, setOpen3] = useState(false);
   const [open, setOpen] = useState(false);
 
+  var bearer = "Bearer " + localStorage.getItem("token");
+
   const { register, handleSubmit, reset } = useForm();
 
   const handleOpenDialog = (row) => {
@@ -96,7 +98,13 @@ function DashboardRoulett() {
     fetchData();
   }, []);
   const fetchData = () => {
-    fetch("http://localhost:3000/course")
+    fetch("http://localhost:3000/course", {
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: bearer,
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setDataValue(data);
@@ -140,6 +148,7 @@ function DashboardRoulett() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: bearer,
         },
         body: JSON.stringify({
           course: course,
@@ -151,6 +160,9 @@ function DashboardRoulett() {
         alert("Curso adicionado com sucesso");
         handleClose1();
         fetchData();
+      }
+      if (response.status === 400) {
+        alert("Erro ao adicionar curso");
       }
     } catch (error) {
       alert("Erro ao adicionar curso");
@@ -170,11 +182,15 @@ function DashboardRoulett() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: bearer,
         },
       });
       if (response.ok) {
         alert("Curso removido com sucesso");
         window.location.reload();
+      }
+      if (response.status === 400) {
+        alert("Erro ao Remover curso");
       }
     } catch (error) {
       alert("Erro ao remover curso");
@@ -191,6 +207,7 @@ function DashboardRoulett() {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: bearer,
           },
           body: JSON.stringify({
             option: data.valueAdd,
@@ -204,6 +221,9 @@ function DashboardRoulett() {
         handleCloseDialog();
         reset();
         window.location.reload();
+      }
+      if (response.status === 400) {
+        alert("Erro ao atualizar item");
       }
     } catch (error) {
       alert("Erro ao alterar item");
@@ -227,6 +247,7 @@ function DashboardRoulett() {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
+            Authorization: bearer,
           },
         }
       );
@@ -235,6 +256,9 @@ function DashboardRoulett() {
         alert("Item Removido com sucesso");
         reset();
         window.location.reload();
+      }
+      if (response.status === 400) {
+        alert("Erro ao remover item");
       }
     } catch (error) {
       alert("Erro ao remover item");
@@ -251,6 +275,7 @@ function DashboardRoulett() {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
+          Authorization: bearer,
         },
         body: JSON.stringify({
           value: {
@@ -264,6 +289,9 @@ function DashboardRoulett() {
       if (response.ok) {
         alert("Item adicionado com sucesso");
         window.location.reload();
+      }
+      if (response.status === 400) {
+        alert("Erro ao adicionar curso");
       }
     } catch (error) {
       alert("Erro ao adicionar item");
