@@ -54,11 +54,10 @@ function Home() {
   const isFormFilled = name && email && tel && cpf && checkboxChecked;
 
   const handleSubmit = async () => {
+    event.preventDefault();
     setLoading(true);
 
     setCpfRegistered(false);
-
-    event.preventDefault();
 
     if (isFormFilled && validateCPF(cpf)) {
       setErro(false);
@@ -98,7 +97,7 @@ function Home() {
         }),
       });
 
-      if (!response.ok) {
+      if (response.status === 409) {
         const content = await response.json();
         if (content.error === "CPF já participou da promoção") {
           setCpfRegistered(true);
@@ -196,7 +195,7 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/course")
+    fetch("https://roleta-back.vercel.app/course")
       .then((res) => res.json())
       .then((data) => {
         setDataValue(data);

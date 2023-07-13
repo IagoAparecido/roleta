@@ -109,19 +109,12 @@ export default function TableData({ data, search }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  function createData(name, prize, email, tel, cpf, course) {
-    return { name, prize, email, tel, cpf, course };
+  function createData(name, prize, email, tel, course) {
+    return { name, prize, email, tel, course };
   }
 
   const rows = data.map((item) =>
-    createData(
-      item.name,
-      item.prize,
-      item.email,
-      item.tel,
-      item.cpf,
-      item.course
-    )
+    createData(item.name, item.prize, item.email, item.tel, item.course)
   );
 
   const filteredRows = rows.filter((row) =>
@@ -169,7 +162,7 @@ export default function TableData({ data, search }) {
             <StyledTableCell>Prêmio</StyledTableCell>
             <StyledTableCell>E-mail</StyledTableCell>
             <StyledTableCell>Telefone</StyledTableCell>
-            <StyledTableCell>CPF</StyledTableCell>
+
             <StyledTableCell>Curso</StyledTableCell>
           </TableRow>
         </TableHead>
@@ -181,12 +174,12 @@ export default function TableData({ data, search }) {
               )
             : filteredRows
           ).map((row) => (
-            <StyledTableRow key={row.cpf}>
-              <TableCell style={{ width: 200 }}>{row.name}</TableCell>
+            <StyledTableRow key={row.email}>
+              <TableCell>{row.name}</TableCell>
               <TableCell>{row.prize}</TableCell>
               <TableCell style={{ width: 300 }}>{row.email}</TableCell>
               <TableCell>{row.tel}</TableCell>
-              <TableCell>{row.cpf}</TableCell>
+
               <TableCell>{row.course}</TableCell>
             </StyledTableRow>
           ))}
