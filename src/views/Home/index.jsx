@@ -4,6 +4,7 @@ import "./styles.css";
 import Select from "../../components/Select";
 import { Box, Modal, Typography } from "@mui/material";
 import Input from "../../components/Input";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function Home() {
   const [mustSpin, setMustSpin] = useState(false);
@@ -340,19 +341,29 @@ function Home() {
       >
         <Box sx={style} className="modal_prize">
           <Typography id="modal-modal-title" variant="h3">
-            Você ganhou mais {desconto} de desconto
+            Você ganhou {desconto}
           </Typography>
           <Typography id="modal-modal-title" variant="h5">
-            Copie o cupom de desconto abaixo e aplique direto no carrinho
+            Clique no botão abaixo para conversar conosco
           </Typography>
 
           <a
             className="buttonfinalize"
-            href={`https://api.whatsapp.com/send?phone=556692518181&text=Olá,%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20${desconto}%%20de%20desconto`}
+            href={`https://api.whatsapp.com/send?phone=556692518181&text=Olá,%20eu%20participei%20da%20roleta%20da%20sorte%20e%20ganhei%20${desconto}%20de%20desconto`}
             target="_blank"
             rel="noreferrer"
           >
-            <Typography id="modal-modal-title" variant="h6">
+            <Typography
+              id="modal-modal-title"
+              variant="h6"
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 10,
+              }}
+            >
+              <WhatsAppIcon />
               Parabéns! Hoje é o seu dia de sorte!
             </Typography>
           </a>
