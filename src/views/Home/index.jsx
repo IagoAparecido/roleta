@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Wheel } from "react-custom-roulette";
 import "./styles.css";
 import Select from "../../components/Select";
@@ -7,6 +7,8 @@ import Input from "../../components/Input";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
 function Home() {
+  const wheelRef = useRef(null);
+
   const [mustSpin, setMustSpin] = useState(false);
   const [prizeNumber, setPrizeNumber] = useState(0);
   const [valueSelect, setValueSelect] = useState("");
@@ -109,6 +111,9 @@ function Home() {
         setCpfRegistered(false);
         setLoading(true);
         setMustSpin(true);
+
+        wheelRef.current.focus();
+
         setTimeout(() => {
           handleOpen();
           setLoading(false);
@@ -235,6 +240,7 @@ function Home() {
   return (
     <div className="container_app">
       <Wheel
+        ref={wheelRef}
         mustStartSpinning={mustSpin}
         data={data}
         onStopSpinning={() => {
