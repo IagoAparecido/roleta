@@ -224,9 +224,10 @@ function Home() {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    p: 10,
+    p: 7,
     borderRadius: 5,
     backgroundColor: "hsl(210, 11%, 85%)",
+    textAlign: "center",
   };
 
   const desconto = data[prizeNumber].option;
