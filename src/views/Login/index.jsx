@@ -14,7 +14,7 @@ function Login() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/user/auth", {
+      const response = await fetch("https://roleta-back.vercel.app/user/auth", {
         method: "POST",
         headers: {
           Accept: "application/json",

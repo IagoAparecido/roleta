@@ -14,7 +14,7 @@ function Dashboard() {
   }, []);
 
   const fetchData = async () => {
-    fetch("http://localhost:3000/person", {
+    await fetch("https://roleta-back.vercel.app/person", {
       method: "GET",
       headers: {
         Accept: "application/json",

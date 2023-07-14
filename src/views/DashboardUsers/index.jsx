@@ -40,7 +40,7 @@ function DashboardRoulett() {
   const fetchData = () => {
     var bearer = "Bearer " + localStorage.getItem("token");
 
-    fetch("http://localhost:3000/user", {
+    fetch("https://roleta-back.vercel.app/user", {
       method: "GET",
       headers: {
         Accept: "application/json",
@@ -106,20 +106,23 @@ function DashboardRoulett() {
     var bearer = "Bearer " + localStorage.getItem("token");
 
     try {
-      const response = await fetch("http://localhost:3000/user/auth/register", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: bearer,
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          status: data.status,
-        }),
-      });
+      const response = await fetch(
+        "https://roleta-back.vercel.app/user/auth/register",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: bearer,
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            status: data.status,
+          }),
+        }
+      );
 
       if (response.status === 422) {
         setError(true);
@@ -147,20 +150,23 @@ function DashboardRoulett() {
     var bearer = "Bearer " + localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:3000/user/${id}`, {
-        method: "PATCH",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: bearer,
-        },
-        body: JSON.stringify({
-          name: data.name,
-          email: data.email,
-          password: data.password,
-          status: data.status,
-        }),
-      });
+      const response = await fetch(
+        `https://roleta-back.vercel.app/user/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: bearer,
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            password: data.password,
+            status: data.status,
+          }),
+        }
+      );
       if (response.ok) {
         alert("Dados alterados com sucesso");
         handleCloseDialog();
@@ -185,14 +191,17 @@ function DashboardRoulett() {
     var bearer = "Bearer " + localStorage.getItem("token");
 
     try {
-      const response = await fetch(`http://localhost:3000/user/${item._id}`, {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: bearer,
-        },
-      });
+      const response = await fetch(
+        `https://roleta-back.vercel.app/user/${item._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: bearer,
+          },
+        }
+      );
 
       if (response.ok) {
         alert("Usuário Removido com sucesso");

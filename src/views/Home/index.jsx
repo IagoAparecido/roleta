@@ -81,7 +81,7 @@ function Home() {
     setPrizeNumber(newPrizeNumber);
 
     try {
-      const response = await fetch("http://localhost:3000/person", {
+      const response = await fetch("https://roleta-back.vercel.app/person", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -195,7 +195,7 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3000/course")
+    fetch("https://roleta-back.vercel.app/course")
       .then((res) => res.json())
       .then((data) => {
         setDataValue(data);

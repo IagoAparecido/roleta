@@ -98,7 +98,7 @@ function DashboardRoulett() {
     fetchData();
   }, []);
   const fetchData = () => {
-    fetch("http://localhost:3000/course", {
+    fetch("https://roleta-back.vercel.app/course", {
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
@@ -143,7 +143,7 @@ function DashboardRoulett() {
     event.preventDefault();
 
     try {
-      const response = await fetch("http://localhost:3000/course", {
+      const response = await fetch("https://roleta-back.vercel.app/course", {
         method: "POST",
         headers: {
           Accept: "application/json",
@@ -177,14 +177,17 @@ function DashboardRoulett() {
     }
 
     try {
-      const response = await fetch(`http://localhost:3000/course/${id}`, {
-        method: "DELETE",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: bearer,
-        },
-      });
+      const response = await fetch(
+        `https://roleta-back.vercel.app/course/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: bearer,
+          },
+        }
+      );
       if (response.ok) {
         alert("Curso removido com sucesso");
         window.location.reload();
@@ -201,7 +204,7 @@ function DashboardRoulett() {
     event.preventDefault();
     try {
       const response = await fetch(
-        `http://localhost:3000/course/${id}/${idPatch}`,
+        `https://roleta-back.vercel.app/course/${id}/${idPatch}`,
         {
           method: "PATCH",
           headers: {
@@ -241,7 +244,7 @@ function DashboardRoulett() {
 
     try {
       const response = await fetch(
-        `http://localhost:3000/course/delete/${id}/${row.id}`,
+        `https://roleta-back.vercel.app/course/delete/${id}/${row.id}`,
         {
           method: "DELETE",
           headers: {
@@ -270,21 +273,24 @@ function DashboardRoulett() {
     event.preventDefault();
 
     try {
-      const response = await fetch(`http://localhost:3000/course/${id}`, {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          Authorization: bearer,
-        },
-        body: JSON.stringify({
-          value: {
-            option: data.valueAdd,
-            backgroundColor: data.backgroundColorAdd,
-            textColor: data.textColorAdd,
+      const response = await fetch(
+        `https://roleta-back.vercel.app/course/${id}`,
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: bearer,
           },
-        }),
-      });
+          body: JSON.stringify({
+            value: {
+              option: data.valueAdd,
+              backgroundColor: data.backgroundColorAdd,
+              textColor: data.textColorAdd,
+            },
+          }),
+        }
+      );
 
       if (response.ok) {
         alert("Item adicionado com sucesso");
