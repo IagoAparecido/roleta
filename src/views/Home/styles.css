@@ -40,7 +40,7 @@
 
 @media (max-width: 600px) {
   .modal_prize {
-    width: 350px;
+    width: 320px;
     padding-inline: 30px !important;
     margin: 0 !important;
   }
@@ -51,7 +51,7 @@
     font-size: 14px;
   }
   .modal_prize a h6 {
-    font-size: 14px;
+    font-size: 13px;
   }
 }
 
