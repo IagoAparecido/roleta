@@ -42,6 +42,7 @@
   .modal_prize {
     width: 350px;
     padding-inline: 30px !important;
+    margin: 0 !important;
   }
   .modal_prize h3 {
     font-size: 25px;
