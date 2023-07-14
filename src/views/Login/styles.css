@@ -87,6 +87,32 @@
   left: 56px;
   animation: lds-ellipsis3 0.6s infinite;
 }
+
+@media (max-width: 500px) {
+  .border_img {
+    width: 320px;
+    height: 10px;
+    position: absolute;
+    background-color: #fff;
+
+    margin-top: -320px;
+  }
+
+  .container_login form {
+    padding-inline: 20px;
+    width: 100%;
+  }
+  .container_login img {
+    padding: 0;
+    padding-inline: 10px;
+    width: 100%;
+  }
+  .container_login input {
+    margin: 0;
+    width: 100%;
+  }
+}
+
 @keyframes lds-ellipsis1 {
   0% {
     transform: scale(0);
