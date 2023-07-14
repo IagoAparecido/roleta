@@ -195,7 +195,7 @@ function Home() {
   };
 
   useEffect(() => {
-    fetch("https://roleta-back.vercel.app/course")
+    fetch("http://localhost:3000/course")
       .then((res) => res.json())
       .then((data) => {
         setDataValue(data);
