@@ -142,6 +142,10 @@ function Home() {
   const validateCPF = (value) => {
     const numericValue = value.replace(/\D/g, "");
 
+    if (/^(\d)\1{10}$/.test(numericValue)) {
+      return false;
+    }
+
     if (numericValue.length !== 11) {
       return false;
     }
