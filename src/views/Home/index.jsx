@@ -320,15 +320,6 @@ function Home() {
                 <span>{"---. "}</span>
                 Concordo com o tratamento dos meus dados para finalidade de
                 marketing, publicidade e divulgação de serviços.
-                <a
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  title=""
-                  aria-live="polite"
-                  tabIndex="7"
-                >
-                  <strong>política de privacidade.</strong>
-                </a>
               </div>
             </div>
           </div>
