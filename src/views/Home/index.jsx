@@ -318,8 +318,7 @@ function Home() {
               />
               <div>
                 <span>{"---. "}</span>
-                Concordo com o tratamento dos meus dados para finalidade de
-                marketing, publicidade e divulgação de serviços.
+                Concordo com os termos e...
               </div>
             </div>
           </div>
