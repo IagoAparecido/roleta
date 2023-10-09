@@ -319,11 +319,8 @@ function Home() {
               <div>
                 <span>{"---. "}</span>
                 Concordo com o tratamento dos meus dados para finalidade de
-                marketing, publicidade e divulgação de serviços da Descomplica,
-                suas parceiras, contato e cumprimento de obrigações legais e
-                contratuais, nos termos{" "}
+                marketing, publicidade e divulgação de serviços.
                 <a
-                  href="https://descomplica.com.br/sobre/politica-de-privacidade/"
                   rel="noopener noreferrer"
                   target="_blank"
                   title=""
